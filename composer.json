@@ -1,0 +1,21 @@
+{
+    "name": "green-zen-monk/educational_office_task",
+    "description": "Educational Office – Home Assignment",
+    "type": "project",
+    "license": "proprietary",
+    "autoload": {
+        "psr-4": {
+            "GreenZenMonk\\SimplifiedScoreCalculator\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Budai Krisztián",
+            "email": "72669043+green-zen-monk@users.noreply.github.com"
+        }
+    ],
+    "require": {
+        "php": "^8.2",
+        "phpunit/phpunit": "^10.0"
+    }
+}
