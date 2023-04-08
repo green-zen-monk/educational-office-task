@@ -87,6 +87,10 @@ class StudentBuilderTest extends TestCase
                 'Graduation result collection - ' . $key .  ' - result'
             );
         }
+
+        $expectedDatasCount = count($datas['erettsegi-eredmenyek']);
+
+        $this->assertCount($expectedDatasCount, $collection, 'Graduation result collection count');
     }
 
     /**
@@ -118,6 +122,10 @@ class StudentBuilderTest extends TestCase
                 'Extra point collection - ' . $key .  ' - language exam subject'
             );
         }
+
+        $expectedDatasCount = count($datas['tobbletpontok']);
+
+        $this->assertCount($expectedDatasCount, $collection, 'Extra point collection count');
     }
 
     /**
