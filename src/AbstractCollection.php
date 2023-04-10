@@ -11,9 +11,6 @@ abstract class AbstractCollection implements Iterator, ArrayAccess, Countable
 {
     private array $collection = [];
 
-    /**
-     * @throws Exception invalid object
-     */
     abstract protected function isValidItem($item): bool;
 
     /**
