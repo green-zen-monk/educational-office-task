@@ -5,7 +5,6 @@ namespace GreenZenMonk\SimplifiedScoreCalculator;
 use GreenZenMonk\SimplifiedScoreCalculator\StudentBuilderException;
 use GreenZenMonk\SimplifiedScoreCalculator\Student\ExtraPointParameter\LanguageExamSubject;
 use GreenZenMonk\SimplifiedScoreCalculator\Student\ExtraPointParameter\LanguageExamType;
-use GreenZenMonk\SimplifiedScoreCalculator\Student\ExtraPointInterface;
 use GreenZenMonk\SimplifiedScoreCalculator\Student\ExtraPointCategory;
 use GreenZenMonk\SimplifiedScoreCalculator\Student\ExtraPoint\LanguageExamExtraPoint;
 use GreenZenMonk\SimplifiedScoreCalculator\Student\GraduationResult;
@@ -21,21 +20,6 @@ class StudentBuilder
         $this->schools = $schools;
     }
 
-    private function buildExtraPointObject(
-        ExtraPointCategory $extraPointCategory,
-        array $parameters
-    ): ExtraPointInterface {
-        if ($extraPointCategory->isLanguageExam()) {
-            return new LanguageExamExtraPoint(
-                $extraPointCategory,
-                LanguageExamSubject::from($parameters['nyelv']),
-                LanguageExamType::from($parameters['tipus'])
-            );
-        }
-
-        return [];
-    }
-
     private function buildLanguageExamExtraPointCollection(array $datas): LanguageExamExtraPointCollection
     {
         $datasExtraPoints = $this->getDataValue($datas, 'tobbletpontok.*.kategoria|nyelv|tipus');
@@ -43,7 +27,14 @@ class StudentBuilder
         $collection = new LanguageExamExtraPointCollection();
         foreach ($datasExtraPoints as $data) {
             $extraPointCategory = ExtraPointCategory::from($data['kategoria']);
-            $collection[] = $this->buildExtraPointObject($extraPointCategory, $data);
+
+            if ($extraPointCategory->isLanguageExam()) {
+                $collection[] = new LanguageExamExtraPoint(
+                    $extraPointCategory,
+                    LanguageExamSubject::from($data['nyelv']),
+                    LanguageExamType::from($data['tipus'])
+                );
+            }
         }
 
         return $collection;
