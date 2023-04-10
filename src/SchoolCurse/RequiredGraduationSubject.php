@@ -7,34 +7,34 @@ use GreenZenMonk\SimplifiedScoreCalculator\GraduationSubjectType;
 
 class RequiredGraduationSubject
 {
-    private GraduationSubject $graduationSubject;
-    private GraduationSubjectType $graduationSubjectType;
+    private GraduationSubject $subject;
+    private GraduationSubjectType $subjectType;
 
     public function __construct(
-        GraduationSubject $graduationSubject,
-        GraduationSubjectType $graduationSubjectType = GraduationSubjectType::MEDIUM
+        GraduationSubject $subject,
+        GraduationSubjectType $subjectType = GraduationSubjectType::MEDIUM
     ) {
-        $this->graduationSubject = $graduationSubject;
-        $this->graduationSubjectType = $graduationSubjectType;
+        $this->subject = $subject;
+        $this->subjectType = $subjectType;
     }
 
     public function getTitle(): string
     {
-        $graduationSubjectTypeIsHigh = $this->graduationSubjectType->isHigh();
-        $graduationSubjectTypeValue = $this->graduationSubjectType->value;
-        $graduationSubjectValue = $this->graduationSubject->value;
+        $subjectTypeIsHigh = $this->subjectType->isHigh();
+        $subjectTypeValue = $this->subjectType->value;
+        $subjectValue = $this->subject->value;
 
-        return $graduationSubjectValue . ($graduationSubjectTypeIsHigh ? '(' . $graduationSubjectTypeValue . ')' : '');
+        return $subjectValue . ($subjectTypeIsHigh ? '(' . $subjectTypeValue . ')' : '');
     }
 
     public function isAvailable(
-        GraduationSubject $graduationSubject,
-        GraduationSubjectType $graduationSubjectType
+        GraduationSubject $actualSubject,
+        GraduationSubjectType $actualSubjectType
     ): bool {
-        return $graduationSubject === $this->graduationSubject
+        return $actualSubject === $this->subject
                && (
-                    $this->graduationSubjectType !== GraduationSubjectType::HIGH
-                    || $graduationSubjectType === $this->graduationSubjectType
+                    $this->subjectType !== GraduationSubjectType::HIGH
+                    || $actualSubjectType === $this->subjectType
                );
     }
 }

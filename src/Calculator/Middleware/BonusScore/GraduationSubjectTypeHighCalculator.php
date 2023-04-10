@@ -10,7 +10,7 @@ final class GraduationSubjectTypeHighCalculator extends AbstractMiddleware
 {
     private const GRADUATION_SUBJECT_TYPE_HIGH_SCORE = 50;
 
-    protected function doCalculate(Student $student, CalculatorResult $defaultCalculatorResult): CalculatorResult
+    protected function doCalculate(Student $student, CalculatorResult $calculatorResult): CalculatorResult
     {
         $graduationResultCollection = $student->getGraduationResultCollection();
 
@@ -23,8 +23,8 @@ final class GraduationSubjectTypeHighCalculator extends AbstractMiddleware
             }
         }
 
-        $defaultCalculatorResult->addBonusScore($bonusScore);
+        $calculatorResult->addBonusScore($bonusScore);
 
-        return $defaultCalculatorResult;
+        return $calculatorResult;
     }
 }

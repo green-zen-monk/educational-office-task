@@ -2,23 +2,23 @@
 
 namespace GreenZenMonk\SimplifiedScoreCalculator;
 
-use GreenZenMonk\SimplifiedScoreCalculator\Student\ExtraPointCollection;
+use GreenZenMonk\SimplifiedScoreCalculator\Student\LanguageExamExtraPointCollection;
 use GreenZenMonk\SimplifiedScoreCalculator\Student\GraduationResultCollection;
 
 final class Student
 {
     private School $selectedSchool;
     private GraduationResultCollection $graduationResults;
-    private ExtraPointCollection $extraPointCollection;
+    private LanguageExamExtraPointCollection $languageExamExtraPointCollection;
 
     public function __construct(
         School $selectedSchool,
         GraduationResultCollection $graduationResults,
-        ExtraPointCollection $extraPointCollection
+        LanguageExamExtraPointCollection $languageExamExtraPointCollection
     ) {
         $this->selectedSchool = $selectedSchool;
         $this->graduationResults = $graduationResults;
-        $this->extraPointCollection = $extraPointCollection;
+        $this->languageExamExtraPointCollection = $languageExamExtraPointCollection;
     }
 
     public function getSelectedSchool(): School
@@ -31,9 +31,9 @@ final class Student
         return $this->graduationResults;
     }
 
-    public function getExtraPointCollection(): ExtraPointCollection
+    public function getLanguageExamCollection(): LanguageExamExtraPointCollection
     {
-        return $this->extraPointCollection;
+        return $this->languageExamExtraPointCollection;
     }
 
     public static function builder(SchoolCollection $schools): StudentBuilder

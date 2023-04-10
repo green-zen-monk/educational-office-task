@@ -33,12 +33,12 @@ final class BestRequiredSelectableGraduationSubjectCalculator extends AbstractMi
         return $selectedRequiredGraduationSubject;
     }
 
-    protected function doCalculate(Student $student, CalculatorResult $defaultCalculatorResult): CalculatorResult
+    protected function doCalculate(Student $student, CalculatorResult $calculatorResult): CalculatorResult
     {
         $graduationResultCollection = $student->getGraduationResultCollection();
 
         $school = $student->getSelectedSchool();
-        $schoolCurse = $school->getSchoolCurse();
+        $schoolCurse = $school->getCurse();
 
         $requiredSelectableSubjects = $schoolCurse->getRequiredSelectableGraduationSubjects();
 
@@ -49,8 +49,8 @@ final class BestRequiredSelectableGraduationSubjectCalculator extends AbstractMi
 
         $basicScore = $bestRequiredSelectableGraduationSubjectResults->getResult() * 2;
 
-        $defaultCalculatorResult->addBasicScore($basicScore);
+        $calculatorResult->addBasicScore($basicScore);
 
-        return $defaultCalculatorResult;
+        return $calculatorResult;
     }
 }

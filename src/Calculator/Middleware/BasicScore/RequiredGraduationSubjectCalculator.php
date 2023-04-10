@@ -8,12 +8,12 @@ use GreenZenMonk\SimplifiedScoreCalculator\Student;
 
 final class RequiredGraduationSubjectCalculator extends AbstractMiddleware
 {
-    protected function doCalculate(Student $student, CalculatorResult $defaultCalculatorResult): CalculatorResult
+    protected function doCalculate(Student $student, CalculatorResult $calculatorResult): CalculatorResult
     {
         $graduationResultCollection = $student->getGraduationResultCollection();
 
         $school = $student->getSelectedSchool();
-        $schoolCurse = $school->getSchoolCurse();
+        $schoolCurse = $school->getCurse();
 
         $requiredGraduationSubject = $schoolCurse->getRequiredGraduationSubject();
 
@@ -23,8 +23,8 @@ final class RequiredGraduationSubjectCalculator extends AbstractMiddleware
 
         $basicScore = $requiredGraduationSubjectResult->getResult() * 2;
 
-        $defaultCalculatorResult->addBasicScore($basicScore);
+        $calculatorResult->addBasicScore($basicScore);
 
-        return $defaultCalculatorResult;
+        return $calculatorResult;
     }
 }

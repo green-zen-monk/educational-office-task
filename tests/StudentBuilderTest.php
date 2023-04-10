@@ -2,7 +2,6 @@
 
 namespace Tests;
 
-use GreenZenMonk\SimplifiedScoreCalculator\Student\ExtraPointParameterName;
 use GreenZenMonk\SimplifiedScoreCalculator\StudentBuilder;
 use GreenZenMonk\SimplifiedScoreCalculator\StudentBuilderException;
 use PHPUnit\Framework\TestCase;
@@ -52,7 +51,7 @@ class StudentBuilderTest extends TestCase
         );
         $this->assertSame(
             $datas['valasztott-szak']['szak'],
-            $school->getSchoolCurse()->getName(),
+            $school->getCurse()->getName(),
             'Selected school curse'
         );
     }
@@ -100,7 +99,7 @@ class StudentBuilderTest extends TestCase
     {
         $student = $this->studentBuilder->build($datas);
 
-        $collection = $student->getExtraPointCollection();
+        $collection = $student->getLanguageExamCollection();
 
         foreach ($collection as $key => $item) {
             $dataGraduationResult = $datas['tobbletpontok'][$key];
@@ -112,13 +111,13 @@ class StudentBuilderTest extends TestCase
 
             $this->assertSame(
                 $dataGraduationResult['tipus'],
-                $item->getParameter(ExtraPointParameterName::LANGUAGE_EXAM_TYPE)->value,
+                $item->getType()->value,
                 'Extra point collection - ' . $key .  ' - language exam type'
             );
 
             $this->assertSame(
                 $dataGraduationResult['nyelv'],
-                $item->getParameter(ExtraPointParameterName::LANGUAGE_EXAM_SUBJECT)->value,
+                $item->getSubject()->value,
                 'Extra point collection - ' . $key .  ' - language exam subject'
             );
         }

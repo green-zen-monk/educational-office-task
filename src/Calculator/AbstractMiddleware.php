@@ -21,7 +21,7 @@ abstract class AbstractMiddleware
     public function calculate(Student $student): CalculatorResult
     {
         if ($this->defaultCalculatorResult === null) {
-            $this->setDefaultScoreCalculatorResult(new CalculatorResult());
+            $this->setDefaultCalculatorResult(new CalculatorResult());
         }
 
         $calculatorResult = $this->doCalculate($student, $this->defaultCalculatorResult);
@@ -31,19 +31,19 @@ abstract class AbstractMiddleware
         }
 
         return $this->link
-                    ->setDefaultScoreCalculatorResult($calculatorResult)
+                    ->setDefaultCalculatorResult($calculatorResult)
                     ->calculate($student);
     }
 
-    public function setDefaultScoreCalculatorResult(CalculatorResult $scoreCalculatorResult): self
+    public function setDefaultCalculatorResult(CalculatorResult $result): self
     {
-        $this->defaultCalculatorResult = $scoreCalculatorResult;
+        $this->defaultCalculatorResult = $result;
 
         return $this;
     }
 
     abstract protected function doCalculate(
         Student $student,
-        CalculatorResult $defaultCalculatorResult
+        CalculatorResult $calculatorResult
     ): CalculatorResult;
 }

@@ -13,7 +13,7 @@ final class RequiredSelectableGraduationSubjectsValidator extends AbstractValida
         $graduationResultCollection = $student->getGraduationResultCollection();
 
         $school = $student->getSelectedSchool();
-        $schoolCurse = $school->getSchoolCurse();
+        $schoolCurse = $school->getCurse();
         $requiredSelectableSubjects = $schoolCurse->getRequiredSelectableGraduationSubjects();
 
         $selectedGraduationSubjectResults = $graduationResultCollection

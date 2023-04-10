@@ -8,17 +8,17 @@ use GreenZenMonk\SimplifiedScoreCalculator\SchoolCurse\RequiredGraduationSubject
 final class SchoolCurse
 {
     private string $name;
-    private RequiredGraduationSubject $requiredSubject;
-    private RequiredGraduationSubjectCollection $requiredSelectableSubjects;
+    private RequiredGraduationSubject $requiredGraduationSubject;
+    private RequiredGraduationSubjectCollection $requiredSelectableGraduationSubjects;
 
     public function __construct(
         string $name,
-        RequiredGraduationSubject $requiredSubject,
-        RequiredGraduationSubjectCollection $requiredSelectableSubjects
+        RequiredGraduationSubject $requiredGraduationSubject,
+        RequiredGraduationSubjectCollection $requiredSelectableGraduationSubjects
     ) {
         $this->name = $name;
-        $this->requiredSubject = $requiredSubject;
-        $this->requiredSelectableSubjects = $requiredSelectableSubjects;
+        $this->requiredGraduationSubject = $requiredGraduationSubject;
+        $this->requiredSelectableGraduationSubjects = $requiredSelectableGraduationSubjects;
     }
 
     public function getName(): string
@@ -28,11 +28,11 @@ final class SchoolCurse
 
     public function getRequiredGraduationSubject(): RequiredGraduationSubject
     {
-        return $this->requiredSubject;
+        return $this->requiredGraduationSubject;
     }
 
     public function getRequiredSelectableGraduationSubjects(): RequiredGraduationSubjectCollection
     {
-        return $this->requiredSelectableSubjects;
+        return $this->requiredSelectableGraduationSubjects;
     }
 }
