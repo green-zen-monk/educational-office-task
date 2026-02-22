@@ -18,7 +18,7 @@ This project is a simplified higher education admission score calculator.
 
 - Name: `green-zen-monk/educational_office_task`
 - Type: `project`
-- License: `proprietary`
+- License: `MIT`
 - Description: `Educational Office - Home Assignment`
 - PSR-4 namespace: `GreenZenMonk\\SimplifiedScoreCalculator\\` (`src/`)
 - Requirement: `php: ^8.2`
