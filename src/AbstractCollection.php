@@ -104,7 +104,7 @@ abstract class AbstractCollection implements Iterator, ArrayAccess, Countable
             )
         );
 
-        return $searchResult ? : null;
+        return $searchResult ?: null;
     }
 
     /**

@@ -33,7 +33,7 @@ class RequiredGraduationSubject
     ): bool {
         return $actualSubject === $this->subject
                && (
-                    $this->subjectType !== GraduationSubjectType::HIGH
+                   $this->subjectType !== GraduationSubjectType::HIGH
                     || $actualSubjectType === $this->subjectType
                );
     }

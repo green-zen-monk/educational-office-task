@@ -1,4 +1,4 @@
-.PHONY: docker-build docker-up docker-down composer-install test-run docker-shell composer-validate composer-show composer-dump-autoload
+.PHONY: docker-build docker-up docker-down composer-install test-run docker-shell composer-validate composer-show composer-dump-autoload phpstan cs-check cs-fix
 
 docker-build:
 	docker compose build app
@@ -13,7 +13,7 @@ composer-install:
 	docker compose exec app composer install
 
 test-run:
-	docker compose exec  app vendor/bin/phpunit
+	docker compose exec  app composer test
 
 docker-shell:
 	docker compose exec app bash
@@ -26,3 +26,12 @@ composer-show:
 
 composer-dump-autoload:
 	docker compose exec app composer dump-autoload
+
+phpstan:
+	docker compose exec app composer phpstan
+
+cs-check:
+	docker compose exec app composer cs-check
+
+cs-fix:
+	docker compose exec app composer cs-fix

@@ -58,11 +58,10 @@ class StudentBuilder
 
     private function getDataValue(array $data, string $key, ?string $parentKeys = null): array|string
     {
-        $keyParts = explode('.', $key);
-
-        if (empty($keyParts)) {
+        if ($key === '') {
             throw new StudentBuilderException('Nincs megadva kulcs az érték kikéréshez!');
         }
+        $keyParts = explode('.', $key);
 
         $firstKey = reset($keyParts);
         $isAllKey = $firstKey === '*';

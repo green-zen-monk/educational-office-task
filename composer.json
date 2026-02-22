@@ -14,8 +14,16 @@
             "email": "72669043+green-zen-monk@users.noreply.github.com"
         }
     ],
+    "scripts": {
+        "test": "vendor/bin/phpunit",
+        "phpstan": "vendor/bin/phpstan analyse -c phpstan.neon",
+        "cs-fix": "vendor/bin/php-cs-fixer fix --config=.php-cs-fixer.dist.php",
+        "cs-check": "vendor/bin/php-cs-fixer fix --dry-run --diff --config=.php-cs-fixer.dist.php"
+    },
     "require-dev": {
         "php": "^8.2",
-        "phpunit/phpunit": "^10.0"
+        "phpunit/phpunit": "^10.0",
+        "phpstan/phpstan": "^1.12",
+        "friendsofphp/php-cs-fixer": "^3.80"
     }
 }

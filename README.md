@@ -204,3 +204,21 @@ make composer-install
 make test-run
 make docker-down
 ```
+
+## Code Quality
+
+PHPStan (`level 5`) and PHP-CS-Fixer (`PSR-12`) are configured in this repository.
+
+```bash
+make phpstan
+make cs-check
+make cs-fix
+```
+
+Equivalent Composer scripts:
+
+```bash
+composer phpstan
+composer cs-check
+composer cs-fix
+```
