@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 return [
     'Student - has not erettsegi-eredmenyek->nev key' => [
         [

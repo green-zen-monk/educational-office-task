@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace GreenZenMonk\SimplifiedScoreCalculator\Calculator;
 
 use GreenZenMonk\SimplifiedScoreCalculator\Calculator\CalculatorResult;

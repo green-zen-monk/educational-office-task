@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use GreenZenMonk\SimplifiedScoreCalculator\Calculator\ValidatorResult;
 use GreenZenMonk\SimplifiedScoreCalculator\Student;
 

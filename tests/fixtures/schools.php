@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 use GreenZenMonk\SimplifiedScoreCalculator\GraduationSubject;
 use GreenZenMonk\SimplifiedScoreCalculator\GraduationSubjectType;
 use GreenZenMonk\SimplifiedScoreCalculator\School;

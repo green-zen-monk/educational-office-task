@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 // output: 470 (370 alappont + 100 többletpont)
 $exampleData = [
     'valasztott-szak' => [
