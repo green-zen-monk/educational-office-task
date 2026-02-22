@@ -9,6 +9,9 @@ use GreenZenMonk\SimplifiedScoreCalculator\SchoolCourse\RequiredGraduationSubjec
 use GreenZenMonk\SimplifiedScoreCalculator\SchoolCourse\RequiredGraduationSubjectCollection;
 use GreenZenMonk\SimplifiedScoreCalculator\Student\GraduationResult;
 
+/**
+ * @extends AbstractCollection<int, GraduationResult>
+ */
 class GraduationResultCollection extends AbstractCollection
 {
     protected function isValidItem(mixed $item): bool
@@ -33,9 +36,13 @@ class GraduationResultCollection extends AbstractCollection
         return $graduationSubject;
     }
 
+    /**
+     * @return list<GraduationResult>
+     */
     public function filterRequiredSelectableGraduationSubjectResults(
         RequiredGraduationSubjectCollection $requiredSelectableSubjects
     ): array {
+        /** @var list<GraduationResult> $filteredCollection */
         $filteredCollection = [];
         foreach ($requiredSelectableSubjects as $requiredGraduationSubject) {
             $graduationSubjectResult = $this->findWithCallback(

@@ -9,14 +9,22 @@ use ArrayAccess;
 use Countable;
 use Exception;
 
+/**
+ * @template TKey of array-key
+ * @template TValue of object
+ * @implements Iterator<TKey, TValue>
+ * @implements ArrayAccess<TKey, TValue>
+ */
 abstract class AbstractCollection implements Iterator, ArrayAccess, Countable
 {
+    /** @var array<TKey, TValue> */
     private array $collection = [];
 
     abstract protected function isValidItem(mixed $item): bool;
 
     /**
      * @throws Exception set invalid object
+     * @param array<TKey, TValue> $collection
      */
     public function __construct(array $collection = [])
     {
@@ -56,6 +64,9 @@ abstract class AbstractCollection implements Iterator, ArrayAccess, Countable
         return array_key_exists($offset, $this->collection);
     }
 
+    /**
+     * @return TValue
+     */
     public function offsetGet(mixed $offset): mixed
     {
         return $this->collection[$offset];
@@ -68,6 +79,8 @@ abstract class AbstractCollection implements Iterator, ArrayAccess, Countable
 
     /**
      * @throws Exception set invalid object
+     * @param TKey|null $key
+     * @param TValue $item
      */
     public function offsetSet($key, $item): void
     {
@@ -84,6 +97,9 @@ abstract class AbstractCollection implements Iterator, ArrayAccess, Countable
         return count($this->collection);
     }
 
+    /**
+     * @param callable(TValue): bool $conditionCallback
+     */
     public function containsWithConditionCallback(callable $conditionCallback): bool
     {
         $conditionResult = false;
@@ -97,6 +113,10 @@ abstract class AbstractCollection implements Iterator, ArrayAccess, Countable
         return $conditionResult;
     }
 
+    /**
+     * @param callable(TValue): bool $callback
+     * @return TValue|null
+     */
     public function findWithCallback(callable $callback): ?object
     {
         $searchResult = current(
@@ -118,7 +138,7 @@ abstract class AbstractCollection implements Iterator, ArrayAccess, Countable
     protected function validate(mixed $item): void
     {
         if (!$this->isValidItem($item)) {
-            $className = get_class($item);
+            $className = is_object($item) ? get_class($item) : gettype($item);
             throw new Exception(
                 'Nem meg felelő objektumot adtál meg: ' . $className
             );

@@ -6,6 +6,9 @@ namespace GreenZenMonk\SimplifiedScoreCalculator;
 
 use GreenZenMonk\SimplifiedScoreCalculator\AbstractCollection;
 
+/**
+ * @extends AbstractCollection<int, School>
+ */
 final class SchoolCollection extends AbstractCollection
 {
     protected function isValidItem(mixed $value): bool

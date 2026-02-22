@@ -22,8 +22,12 @@ class StudentBuilder
         $this->schools = $schools;
     }
 
+    /**
+     * @param array<array-key, mixed> $data
+     */
     private function buildLanguageExamExtraPointCollection(array $data): LanguageExamExtraPointCollection
     {
+        /** @var list<array{kategoria: string, nyelv: string, tipus: string}> $dataExtraPoints */
         $dataExtraPoints = $this->getDataValue($data, 'tobbletpontok.*.kategoria|nyelv|tipus');
 
         $collection = new LanguageExamExtraPointCollection();
@@ -42,8 +46,12 @@ class StudentBuilder
         return $collection;
     }
 
+    /**
+     * @param array<array-key, mixed> $data
+     */
     private function buildGraduationResultCollection(array $data): GraduationResultCollection
     {
+        /** @var list<array{nev: string, tipus: string, eredmeny: string}> $graduationResultDataList */
         $graduationResultDataList = $this->getDataValue($data, 'erettsegi-eredmenyek.*.nev|tipus|eredmeny');
 
         $collection = new GraduationResultCollection();
@@ -58,6 +66,10 @@ class StudentBuilder
         return $collection;
     }
 
+    /**
+     * @param array<array-key, mixed> $data
+     * @return array<array-key, mixed>|string
+     */
     private function getDataValue(array $data, string $key, ?string $parentKeys = null): array|string
     {
         if ($key === '') {
@@ -104,6 +116,13 @@ class StudentBuilder
             if ($isAllKey) {
                 $dataValue = [];
                 foreach ($data as $item) {
+                    if (!is_array($item)) {
+                        throw new StudentBuilderException(
+                            'A megadott kulcs alatt nem tömbérték található: ' .
+                            $parentKeys
+                        );
+                    }
+
                     $dataValue[] = $this->getDataValue($item, $key, $parentKeys);
                 }
 
@@ -116,11 +135,17 @@ class StudentBuilder
         return $dataValue;
     }
 
+    /**
+     * @param array<array-key, mixed> $data
+     */
     public function build(array $data): Student
     {
         $selectedSchool = $this->schools->findWithCallback(function (School $school) use ($data) {
+            /** @var string $dataUniversityName */
             $dataUniversityName = $this->getDataValue($data, 'valasztott-szak.egyetem');
+            /** @var string $dataFaculty */
             $dataFaculty = $this->getDataValue($data, 'valasztott-szak.kar');
+            /** @var string $dataCourse */
             $dataCourse = $this->getDataValue($data, 'valasztott-szak.szak');
 
             return $dataUniversityName === $school->getName()

@@ -42,11 +42,17 @@ class ScoreCalculatorTest extends TestCase
         $this->calculator = new ScoreCalculator($validator, $calculatorMiddleware);
     }
 
+    /**
+     * @return array<string, array{0: Student, 1: CalculatorResult}>
+     */
     public static function loadSuccessDummyDataSets(): array
     {
         return require __DIR__ . '/fixtures/calculator_success_student_data_sets.php';
     }
 
+    /**
+     * @return array<string, array{0: Student, 1: ValidatorResult}>
+     */
     public static function loadUnsuccessfulDummyDataSets(): array
     {
         return require __DIR__ . '/fixtures/calculator_unsuccessful_student_data_sets.php';

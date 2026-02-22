@@ -10,6 +10,12 @@ use PHPUnit\Framework\TestCase;
 
 /**
  * StudentBuilderTest
+ *
+ * @phpstan-type StudentData array{
+ *   'valasztott-szak': array{egyetem: string, kar: string, szak: string},
+ *   'erettsegi-eredmenyek': list<array{nev: string, tipus: string, eredmeny: string}>,
+ *   'tobbletpontok': list<array{kategoria: string, tipus: string, nyelv: string}>
+ * }
  */
 class StudentBuilderTest extends TestCase
 {
@@ -22,11 +28,17 @@ class StudentBuilderTest extends TestCase
         $this->studentBuilder = new StudentBuilder($schools);
     }
 
+    /**
+     * @return array<string, array{0: StudentData}>
+     */
     public static function loadDummyValidData(): array
     {
         return require __DIR__ . '/fixtures/builder_valid_students_data.php';
     }
 
+    /**
+     * @return array<string, array{0: array<array-key, mixed>}>
+     */
     public static function loadDummyInvalidData(): array
     {
         return require __DIR__ . '/fixtures/builder_invalid_students_data.php';
@@ -34,6 +46,7 @@ class StudentBuilderTest extends TestCase
 
     /**
      * @dataProvider loadDummyValidData
+     * @param StudentData $dataSet
      */
     public function testSelectedSchools(array $dataSet): void
     {
@@ -60,6 +73,7 @@ class StudentBuilderTest extends TestCase
 
     /**
      * @dataProvider loadDummyValidData
+     * @param StudentData $dataSet
      */
     public function testGraduationResultCollection(array $dataSet): void
     {
@@ -96,6 +110,7 @@ class StudentBuilderTest extends TestCase
 
     /**
      * @dataProvider loadDummyValidData
+     * @param StudentData $dataSet
      */
     public function testExtraPointCollection(array $dataSet): void
     {
@@ -131,6 +146,7 @@ class StudentBuilderTest extends TestCase
 
     /**
      * @dataProvider loadDummyInvalidData
+     * @param array<array-key, mixed> $dataSet
      */
     public function testInvalidData(array $dataSet): void
     {
