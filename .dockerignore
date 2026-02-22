@@ -1,0 +1,4 @@
+.git
+.gitignore
+.phpunit.result.cache
+vendor

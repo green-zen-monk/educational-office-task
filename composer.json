@@ -14,7 +14,7 @@
             "email": "72669043+green-zen-monk@users.noreply.github.com"
         }
     ],
-    "require": {
+    "require-dev": {
         "php": "^8.2",
         "phpunit/phpunit": "^10.0"
     }
