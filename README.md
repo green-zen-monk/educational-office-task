@@ -1,80 +1,206 @@
 # Educational Office Task
 
-## Project Goal
+A simplified higher-education admission score calculator PHP library.
 
-This project is a simplified higher education admission score calculator.
+## What Is This Library For?
 
-- The input contains applicant data (selected program, graduation exam results, extra points).
-- The system validates required and selectable subject requirements, as well as minimum result thresholds.
-- After successful validation, it calculates base points, bonus points, and the total score.
-- For invalid or incomplete input, it returns a clear validation error message.
+This package calculates an applicant's admission score from input data (selected program, graduation exam results, extra points).
 
-## Prerequisites
+- Validates required and required-selectable subjects.
+- Validates the minimum score threshold of 20%.
+- Calculates base score and bonus score.
+- Caps bonus score at 100 points.
 
-- Docker Engine + Docker Compose plugin
-- GNU Make
+## Quick Install
 
-## Composer Package Information
-
-- Name: `green-zen-monk/educational_office_task`
-- Type: `project`
-- License: `MIT`
-- Description: `Educational Office - Home Assignment`
-- PSR-4 namespace: `GreenZenMonk\\SimplifiedScoreCalculator\\` (`src/`)
-- Requirement: `php: ^8.2`
-- Dev dependency: `phpunit/phpunit: ^10.0`
-
-## Useful Composer Commands
+As a dependency:
 
 ```bash
-make composer-validate
-make composer-show
-make composer-dump-autoload
+composer require green-zen-monk/educational_office_task
 ```
 
-## Run With Docker (via Makefile)
+In this repository (for development):
 
-### 1) Start the container in the background
+```bash
+composer install
+```
+
+## Full Usage Example
+
+```php
+<?php
+
+require __DIR__ . '/vendor/autoload.php';
+
+use GreenZenMonk\SimplifiedScoreCalculator\ScoreCalculator;
+use GreenZenMonk\SimplifiedScoreCalculator\ScoreCalculatorException;
+use GreenZenMonk\SimplifiedScoreCalculator\StudentBuilder;
+use GreenZenMonk\SimplifiedScoreCalculator\StudentBuilderException;
+use GreenZenMonk\SimplifiedScoreCalculator\School;
+use GreenZenMonk\SimplifiedScoreCalculator\SchoolCollection;
+use GreenZenMonk\SimplifiedScoreCalculator\SchoolCurse;
+use GreenZenMonk\SimplifiedScoreCalculator\GraduationSubject;
+use GreenZenMonk\SimplifiedScoreCalculator\SchoolCurse\RequiredGraduationSubject;
+use GreenZenMonk\SimplifiedScoreCalculator\SchoolCurse\RequiredGraduationSubjectCollection;
+use GreenZenMonk\SimplifiedScoreCalculator\Calculator\Middleware\BasicScore\RequiredGraduationSubjectCalculator;
+use GreenZenMonk\SimplifiedScoreCalculator\Calculator\Middleware\BasicScore\BestRequiredSelectableGraduationSubjectCalculator;
+use GreenZenMonk\SimplifiedScoreCalculator\Calculator\Middleware\BonusScore\GraduationSubjectTypeHighCalculator;
+use GreenZenMonk\SimplifiedScoreCalculator\Calculator\Middleware\BonusScore\LangaugeExamTypeCalculator;
+use GreenZenMonk\SimplifiedScoreCalculator\Calculator\Validator\GraduationResultMinNotReachValidator;
+use GreenZenMonk\SimplifiedScoreCalculator\Calculator\Validator\RequiredDefaultGraduationSubjectsValidator;
+use GreenZenMonk\SimplifiedScoreCalculator\Calculator\Validator\RequiredGraduationSubjectValidator;
+use GreenZenMonk\SimplifiedScoreCalculator\Calculator\Validator\RequiredSelectableGraduationSubjectsValidator;
+
+// School catalog definition.
+$schools = new SchoolCollection([
+    new School(
+        'ELTE',
+        'IK',
+        new SchoolCurse(
+            'Programtervező informatikus',
+            new RequiredGraduationSubject(GraduationSubject::MATHEMATICS),
+            new RequiredGraduationSubjectCollection([
+                new RequiredGraduationSubject(GraduationSubject::BIOLOGY),
+                new RequiredGraduationSubject(GraduationSubject::PHYSICS),
+                new RequiredGraduationSubject(GraduationSubject::IT),
+                new RequiredGraduationSubject(GraduationSubject::CHEMISTRY),
+            ])
+        )
+    ),
+]);
+
+$input = [
+    'valasztott-szak' => [
+        'egyetem' => 'ELTE',
+        'kar' => 'IK',
+        'szak' => 'Programtervező informatikus',
+    ],
+    'erettsegi-eredmenyek' => [
+        ['nev' => 'magyar nyelv és irodalom', 'tipus' => 'közép', 'eredmeny' => '70%'],
+        ['nev' => 'történelem', 'tipus' => 'közép', 'eredmeny' => '80%'],
+        ['nev' => 'matematika', 'tipus' => 'emelt', 'eredmeny' => '90%'],
+        ['nev' => 'angol nyelv', 'tipus' => 'közép', 'eredmeny' => '94%'],
+        ['nev' => 'informatika', 'tipus' => 'közép', 'eredmeny' => '95%'],
+    ],
+    'tobbletpontok' => [
+        ['kategoria' => 'Nyelvvizsga', 'tipus' => 'B2', 'nyelv' => 'angol'],
+        ['kategoria' => 'Nyelvvizsga', 'tipus' => 'C1', 'nyelv' => 'német'],
+    ],
+];
+
+$builder = new StudentBuilder($schools);
+
+$validator = new GraduationResultMinNotReachValidator();
+$validator->linkWith(new RequiredDefaultGraduationSubjectsValidator())
+    ->linkWith(new RequiredGraduationSubjectValidator())
+    ->linkWith(new RequiredSelectableGraduationSubjectsValidator());
+
+$middleware = new RequiredGraduationSubjectCalculator();
+$middleware->linkWith(new BestRequiredSelectableGraduationSubjectCalculator())
+    ->linkWith(new GraduationSubjectTypeHighCalculator())
+    ->linkWith(new LangaugeExamTypeCalculator());
+
+$calculator = new ScoreCalculator($validator, $middleware);
+
+try {
+    $student = $builder->build($input);
+    $result = $calculator->calculate($student);
+
+    print_r([
+        'basicScore' => $result->getBasicScore(),
+        'bonusScore' => $result->getBonusScore(),
+        'totalScore' => $result->getTotalScore(),
+    ]);
+} catch (StudentBuilderException $e) {
+    echo 'Input error: ' . $e->getMessage() . PHP_EOL;
+} catch (ScoreCalculatorException $e) {
+    echo 'Applicant is not scoreable: ' . $e->getMessage() . PHP_EOL;
+}
+```
+
+## Input/Output Format
+
+### Input (`array`)
+
+Required top-level keys:
+
+- `valasztott-szak.egyetem` (`string`)
+- `valasztott-szak.kar` (`string`)
+- `valasztott-szak.szak` (`string`)
+- `erettsegi-eredmenyek` (`array`)
+- `tobbletpontok` (`array`)
+
+`erettsegi-eredmenyek[]` items:
+
+- `nev`: subject name (for example `matematika`, `angol nyelv`, `informatika`)
+- `tipus`: `közép` or `emelt`
+- `eredmeny`: percentage value (for example `85%`, `85`)
+
+`tobbletpontok[]` items:
+
+- `kategoria`: currently `Nyelvvizsga`
+- `tipus`: `B2` or `C1`
+- `nyelv`: for example `angol`, `német`, `francia`
+
+### Output (successful calculation)
+
+`ScoreCalculator::calculate()` returns a `CalculatorResult` object:
+
+- `getBasicScore(): int`
+- `getBonusScore(): int` (max. 100)
+- `getTotalScore(): int`
+
+## Exception Handling
+
+### `StudentBuilderException`
+
+`StudentBuilder::build()` throws this when input structure is missing or invalid (for example missing keys or invalid nested structure).
+
+### `ScoreCalculatorException`
+
+`ScoreCalculator::calculate()` throws this when the applicant fails validation.
+The exception message is the validator error message.
+
+Note: Invalid enum values (for example unknown subject or unsupported type) can raise native PHP `ValueError`.
+If the selected program does not exist in `SchoolCollection`, builder flow may later fail with `TypeError`.
+
+## Architecture (validator + middleware pipeline)
+
+```text
+raw input array
+  |
+  v
+StudentBuilder.php
+  - selects School by (egyetem/kar/szak)
+  - builds GraduationResultCollection
+  - builds LanguageExamExtraPointCollection
+  |
+  v
+Student
+  |
+  v
+ScoreCalculator.php
+  |
+  +--> Validator chain (Chain of Responsibility)
+  |      1) GraduationResultMinNotReachValidator
+  |      2) RequiredDefaultGraduationSubjectsValidator
+  |      3) RequiredGraduationSubjectValidator
+  |      4) RequiredSelectableGraduationSubjectsValidator
+  |         -> if any step fails: ScoreCalculatorException
+  |
+  +--> Middleware chain (accumulative calculation pipeline)
+         1) RequiredGraduationSubjectCalculator
+         2) BestRequiredSelectableGraduationSubjectCalculator
+         3) GraduationSubjectTypeHighCalculator
+         4) LangaugeExamTypeCalculator
+            -> CalculatorResult (basic, bonus, total)
+```
+
+## Developer Run With Docker
 
 ```bash
 make docker-up
-```
-
-### 2) Install dependencies (vendor)
-
-```bash
 make composer-install
-```
-
-### 3) Run tests
-
-```bash
 make test-run
-```
-
-### 4) Open an interactive shell in the running container
-
-```bash
-make docker-shell
-```
-
-### 5) Stop containers
-
-```bash
 make docker-down
 ```
-
-## Same Commands Without `make`
-
-```bash
-docker compose up -d
-docker compose exec app composer install
-docker compose exec app vendor/bin/phpunit
-docker compose exec app bash
-docker compose down
-```
-
-## Useful Notes
-
-- `docker compose exec ...` only works with a running container, so run `docker compose up -d` first.
-- `exec` enters the same running container, it does not create a new temporary one.

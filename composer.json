@@ -1,7 +1,7 @@
 {
     "name": "green-zen-monk/educational_office_task",
     "description": "Educational Office – Home Assignment",
-    "type": "project",
+    "type": "library",
     "license": "MIT",
     "autoload": {
         "psr-4": {
