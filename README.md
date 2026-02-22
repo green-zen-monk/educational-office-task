@@ -38,14 +38,14 @@ use GreenZenMonk\SimplifiedScoreCalculator\StudentBuilder;
 use GreenZenMonk\SimplifiedScoreCalculator\StudentBuilderException;
 use GreenZenMonk\SimplifiedScoreCalculator\School;
 use GreenZenMonk\SimplifiedScoreCalculator\SchoolCollection;
-use GreenZenMonk\SimplifiedScoreCalculator\SchoolCurse;
+use GreenZenMonk\SimplifiedScoreCalculator\SchoolCourse;
 use GreenZenMonk\SimplifiedScoreCalculator\GraduationSubject;
-use GreenZenMonk\SimplifiedScoreCalculator\SchoolCurse\RequiredGraduationSubject;
-use GreenZenMonk\SimplifiedScoreCalculator\SchoolCurse\RequiredGraduationSubjectCollection;
+use GreenZenMonk\SimplifiedScoreCalculator\SchoolCourse\RequiredGraduationSubject;
+use GreenZenMonk\SimplifiedScoreCalculator\SchoolCourse\RequiredGraduationSubjectCollection;
 use GreenZenMonk\SimplifiedScoreCalculator\Calculator\Middleware\BasicScore\RequiredGraduationSubjectCalculator;
 use GreenZenMonk\SimplifiedScoreCalculator\Calculator\Middleware\BasicScore\BestRequiredSelectableGraduationSubjectCalculator;
 use GreenZenMonk\SimplifiedScoreCalculator\Calculator\Middleware\BonusScore\GraduationSubjectTypeHighCalculator;
-use GreenZenMonk\SimplifiedScoreCalculator\Calculator\Middleware\BonusScore\LangaugeExamTypeCalculator;
+use GreenZenMonk\SimplifiedScoreCalculator\Calculator\Middleware\BonusScore\LanguageExamTypeCalculator;
 use GreenZenMonk\SimplifiedScoreCalculator\Calculator\Validator\GraduationResultMinNotReachValidator;
 use GreenZenMonk\SimplifiedScoreCalculator\Calculator\Validator\RequiredDefaultGraduationSubjectsValidator;
 use GreenZenMonk\SimplifiedScoreCalculator\Calculator\Validator\RequiredGraduationSubjectValidator;
@@ -56,7 +56,7 @@ $schools = new SchoolCollection([
     new School(
         'ELTE',
         'IK',
-        new SchoolCurse(
+        new SchoolCourse(
             'Programtervező informatikus',
             new RequiredGraduationSubject(GraduationSubject::MATHEMATICS),
             new RequiredGraduationSubjectCollection([
@@ -98,7 +98,7 @@ $validator->linkWith(new RequiredDefaultGraduationSubjectsValidator())
 $middleware = new RequiredGraduationSubjectCalculator();
 $middleware->linkWith(new BestRequiredSelectableGraduationSubjectCalculator())
     ->linkWith(new GraduationSubjectTypeHighCalculator())
-    ->linkWith(new LangaugeExamTypeCalculator());
+    ->linkWith(new LanguageExamTypeCalculator());
 
 $calculator = new ScoreCalculator($validator, $middleware);
 
@@ -192,7 +192,7 @@ ScoreCalculator.php
          1) RequiredGraduationSubjectCalculator
          2) BestRequiredSelectableGraduationSubjectCalculator
          3) GraduationSubjectTypeHighCalculator
-         4) LangaugeExamTypeCalculator
+         4) LanguageExamTypeCalculator
             -> CalculatorResult (basic, bonus, total)
 ```
 

@@ -5,13 +5,13 @@ declare(strict_types=1);
 namespace GreenZenMonk\SimplifiedScoreCalculator\Student;
 
 use GreenZenMonk\SimplifiedScoreCalculator\AbstractCollection;
-use GreenZenMonk\SimplifiedScoreCalculator\SchoolCurse\RequiredGraduationSubject;
-use GreenZenMonk\SimplifiedScoreCalculator\SchoolCurse\RequiredGraduationSubjectCollection;
+use GreenZenMonk\SimplifiedScoreCalculator\SchoolCourse\RequiredGraduationSubject;
+use GreenZenMonk\SimplifiedScoreCalculator\SchoolCourse\RequiredGraduationSubjectCollection;
 use GreenZenMonk\SimplifiedScoreCalculator\Student\GraduationResult;
 
 class GraduationResultCollection extends AbstractCollection
 {
-    protected function isValidItem($item): bool
+    protected function isValidItem(mixed $item): bool
     {
         return $item instanceof GraduationResult;
     }

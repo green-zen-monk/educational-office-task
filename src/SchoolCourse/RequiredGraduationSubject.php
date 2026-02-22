@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace GreenZenMonk\SimplifiedScoreCalculator\SchoolCurse;
+namespace GreenZenMonk\SimplifiedScoreCalculator\SchoolCourse;
 
 use GreenZenMonk\SimplifiedScoreCalculator\GraduationSubject;
 use GreenZenMonk\SimplifiedScoreCalculator\GraduationSubjectType;

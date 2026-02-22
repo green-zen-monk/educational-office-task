@@ -15,8 +15,8 @@ final class RequiredGraduationSubjectValidator extends AbstractValidator
         $graduationResultCollection = $student->getGraduationResultCollection();
 
         $school = $student->getSelectedSchool();
-        $schoolCurse = $school->getCurse();
-        $requiredGraduationSubject = $schoolCurse->getRequiredGraduationSubject();
+        $schoolCourse = $school->getCourse();
+        $requiredGraduationSubject = $schoolCourse->getRequiredGraduationSubject();
 
         $graduationSubjectResult = $graduationResultCollection
             ->findRequiredGraduationSubjectResult($requiredGraduationSubject);

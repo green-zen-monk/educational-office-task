@@ -8,11 +8,11 @@ use GreenZenMonk\SimplifiedScoreCalculator\Calculator\AbstractMiddleware;
 use GreenZenMonk\SimplifiedScoreCalculator\Calculator\CalculatorResult;
 use GreenZenMonk\SimplifiedScoreCalculator\Student;
 
-final class LangaugeExamTypeCalculator extends AbstractMiddleware
+final class LanguageExamTypeCalculator extends AbstractMiddleware
 {
-    private const LANGAUGE_EXAM_TYPE_SCORE_C1 = 40;
+    private const LANGUAGE_EXAM_TYPE_SCORE_C1 = 40;
 
-    private const LANGAUGE_EXAM_TYPE_SCORE_B2 = 28;
+    private const LANGUAGE_EXAM_TYPE_SCORE_B2 = 28;
 
     protected function doCalculate(Student $student, CalculatorResult $calculatorResult): CalculatorResult
     {
@@ -27,9 +27,9 @@ final class LangaugeExamTypeCalculator extends AbstractMiddleware
             $score = 0;
 
             if ($languageExamType->isC1()) {
-                $score = self::LANGAUGE_EXAM_TYPE_SCORE_C1;
+                $score = self::LANGUAGE_EXAM_TYPE_SCORE_C1;
             } elseif ($languageExamType->isB2()) {
-                $score = self::LANGAUGE_EXAM_TYPE_SCORE_B2;
+                $score = self::LANGUAGE_EXAM_TYPE_SCORE_B2;
             }
 
             if (

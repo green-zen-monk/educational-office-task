@@ -13,7 +13,7 @@ abstract class AbstractCollection implements Iterator, ArrayAccess, Countable
 {
     private array $collection = [];
 
-    abstract protected function isValidItem($item): bool;
+    abstract protected function isValidItem(mixed $item): bool;
 
     /**
      * @throws Exception set invalid object
@@ -115,7 +115,7 @@ abstract class AbstractCollection implements Iterator, ArrayAccess, Countable
      * @param mixed $item
      * @return void
      */
-    protected function validate($item): void
+    protected function validate(mixed $item): void
     {
         if (!$this->isValidItem($item)) {
             $className = get_class($item);

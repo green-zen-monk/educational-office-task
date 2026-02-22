@@ -22,119 +22,119 @@ class StudentBuilderTest extends TestCase
         $this->studentBuilder = new StudentBuilder($schools);
     }
 
-    public static function loadDummyValidDatas(): array
+    public static function loadDummyValidData(): array
     {
         return require __DIR__ . '/fixtures/builder_valid_students_data.php';
     }
 
-    public static function loadDummyInvalidDatas(): array
+    public static function loadDummyInvalidData(): array
     {
         return require __DIR__ . '/fixtures/builder_invalid_students_data.php';
     }
 
     /**
-     * @dataProvider loadDummyValidDatas
+     * @dataProvider loadDummyValidData
      */
-    public function testSelectedSchools(array $datas)
+    public function testSelectedSchools(array $dataSet): void
     {
-        $student = $this->studentBuilder->build($datas);
+        $student = $this->studentBuilder->build($dataSet);
 
         $school = $student->getSelectedSchool();
 
         $this->assertSame(
-            $datas['valasztott-szak']['egyetem'],
+            $dataSet['valasztott-szak']['egyetem'],
             $school->getName(),
             'Selected school name'
         );
         $this->assertSame(
-            $datas['valasztott-szak']['kar'],
+            $dataSet['valasztott-szak']['kar'],
             $school->getFaculty(),
             'Selected school faculty'
         );
         $this->assertSame(
-            $datas['valasztott-szak']['szak'],
-            $school->getCurse()->getName(),
-            'Selected school curse'
+            $dataSet['valasztott-szak']['szak'],
+            $school->getCourse()->getName(),
+            'Selected school course'
         );
     }
 
     /**
-     * @dataProvider loadDummyValidDatas
+     * @dataProvider loadDummyValidData
      */
-    public function testGraduationResultCollection(array $datas)
+    public function testGraduationResultCollection(array $dataSet): void
     {
-        $student = $this->studentBuilder->build($datas);
+        $student = $this->studentBuilder->build($dataSet);
 
         $collection = $student->getGraduationResultCollection();
 
         foreach ($collection as $key => $item) {
-            $dataGraduationResult = $datas['erettsegi-eredmenyek'][$key];
+            $graduationResultData = $dataSet['erettsegi-eredmenyek'][$key];
 
             $this->assertSame(
-                $dataGraduationResult['nev'],
+                $graduationResultData['nev'],
                 $item->getGraduationSubject()->value,
                 'Graduation result collection - ' . $key .  ' - name'
             );
 
             $this->assertSame(
-                $dataGraduationResult['tipus'],
+                $graduationResultData['tipus'],
                 $item->getGraduationSubjectType()->value,
                 'Graduation result collection - ' . $key .  ' - type'
             );
 
             $this->assertSame(
-                $dataGraduationResult['eredmeny'],
+                $graduationResultData['eredmeny'],
                 $item->getResult() . '%',
                 'Graduation result collection - ' . $key .  ' - result'
             );
         }
 
-        $expectedDatasCount = count($datas['erettsegi-eredmenyek']);
+        $expectedDataCount = count($dataSet['erettsegi-eredmenyek']);
 
-        $this->assertCount($expectedDatasCount, $collection, 'Graduation result collection count');
+        $this->assertCount($expectedDataCount, $collection, 'Graduation result collection count');
     }
 
     /**
-     * @dataProvider loadDummyValidDatas
+     * @dataProvider loadDummyValidData
      */
-    public function testExtraPointCollection(array $datas)
+    public function testExtraPointCollection(array $dataSet): void
     {
-        $student = $this->studentBuilder->build($datas);
+        $student = $this->studentBuilder->build($dataSet);
 
         $collection = $student->getLanguageExamCollection();
 
         foreach ($collection as $key => $item) {
-            $dataGraduationResult = $datas['tobbletpontok'][$key];
+            $extraPointData = $dataSet['tobbletpontok'][$key];
             $this->assertSame(
-                $dataGraduationResult['kategoria'],
+                $extraPointData['kategoria'],
                 $item->getCategory()->value,
                 'Extra point collection - ' . $key .  ' - category'
             );
 
             $this->assertSame(
-                $dataGraduationResult['tipus'],
+                $extraPointData['tipus'],
                 $item->getType()->value,
                 'Extra point collection - ' . $key .  ' - language exam type'
             );
 
             $this->assertSame(
-                $dataGraduationResult['nyelv'],
+                $extraPointData['nyelv'],
                 $item->getSubject()->value,
                 'Extra point collection - ' . $key .  ' - language exam subject'
             );
         }
 
-        $expectedDatasCount = count($datas['tobbletpontok']);
+        $expectedDataCount = count($dataSet['tobbletpontok']);
 
-        $this->assertCount($expectedDatasCount, $collection, 'Extra point collection count');
+        $this->assertCount($expectedDataCount, $collection, 'Extra point collection count');
     }
 
     /**
-     * @dataProvider loadDummyInvalidDatas
+     * @dataProvider loadDummyInvalidData
      */
-    public function testInvalidData(array $datas)
+    public function testInvalidData(array $dataSet): void
     {
         $this->expectException(StudentBuilderException::class);
-        $this->studentBuilder->build($datas);
+        $this->studentBuilder->build($dataSet);
     }
 }

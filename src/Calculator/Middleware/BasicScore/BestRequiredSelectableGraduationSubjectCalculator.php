@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace GreenZenMonk\SimplifiedScoreCalculator\Calculator\Middleware\BasicScore;
 
-use GreenZenMonk\SimplifiedScoreCalculator\SchoolCurse\RequiredGraduationSubjectCollection;
+use GreenZenMonk\SimplifiedScoreCalculator\SchoolCourse\RequiredGraduationSubjectCollection;
 use GreenZenMonk\SimplifiedScoreCalculator\Calculator\AbstractMiddleware;
 use GreenZenMonk\SimplifiedScoreCalculator\Calculator\CalculatorResult;
 use GreenZenMonk\SimplifiedScoreCalculator\Student;
@@ -40,9 +40,9 @@ final class BestRequiredSelectableGraduationSubjectCalculator extends AbstractMi
         $graduationResultCollection = $student->getGraduationResultCollection();
 
         $school = $student->getSelectedSchool();
-        $schoolCurse = $school->getCurse();
+        $schoolCourse = $school->getCourse();
 
-        $requiredSelectableSubjects = $schoolCurse->getRequiredSelectableGraduationSubjects();
+        $requiredSelectableSubjects = $schoolCourse->getRequiredSelectableGraduationSubjects();
 
         $bestRequiredSelectableGraduationSubjectResults = $this->findBestRequiredSelectableGraduationSubjectResult(
             $requiredSelectableSubjects,

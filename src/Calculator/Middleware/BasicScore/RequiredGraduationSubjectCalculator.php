@@ -15,9 +15,9 @@ final class RequiredGraduationSubjectCalculator extends AbstractMiddleware
         $graduationResultCollection = $student->getGraduationResultCollection();
 
         $school = $student->getSelectedSchool();
-        $schoolCurse = $school->getCurse();
+        $schoolCourse = $school->getCourse();
 
-        $requiredGraduationSubject = $schoolCurse->getRequiredGraduationSubject();
+        $requiredGraduationSubject = $schoolCourse->getRequiredGraduationSubject();
 
         $requiredGraduationSubjectResult = $graduationResultCollection->findRequiredGraduationSubjectResult(
             $requiredGraduationSubject

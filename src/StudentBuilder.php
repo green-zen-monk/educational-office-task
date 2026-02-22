@@ -22,19 +22,19 @@ class StudentBuilder
         $this->schools = $schools;
     }
 
-    private function buildLanguageExamExtraPointCollection(array $datas): LanguageExamExtraPointCollection
+    private function buildLanguageExamExtraPointCollection(array $data): LanguageExamExtraPointCollection
     {
-        $datasExtraPoints = $this->getDataValue($datas, 'tobbletpontok.*.kategoria|nyelv|tipus');
+        $dataExtraPoints = $this->getDataValue($data, 'tobbletpontok.*.kategoria|nyelv|tipus');
 
         $collection = new LanguageExamExtraPointCollection();
-        foreach ($datasExtraPoints as $data) {
-            $extraPointCategory = ExtraPointCategory::from($data['kategoria']);
+        foreach ($dataExtraPoints as $extraPointData) {
+            $extraPointCategory = ExtraPointCategory::from($extraPointData['kategoria']);
 
             if ($extraPointCategory->isLanguageExam()) {
                 $collection[] = new LanguageExamExtraPoint(
                     $extraPointCategory,
-                    LanguageExamSubject::from($data['nyelv']),
-                    LanguageExamType::from($data['tipus'])
+                    LanguageExamSubject::from($extraPointData['nyelv']),
+                    LanguageExamType::from($extraPointData['tipus'])
                 );
             }
         }
@@ -42,16 +42,16 @@ class StudentBuilder
         return $collection;
     }
 
-    private function buildGraduationResultCollection(array $datas): GraduationResultCollection
+    private function buildGraduationResultCollection(array $data): GraduationResultCollection
     {
-        $dataGraduationResult = $this->getDataValue($datas, 'erettsegi-eredmenyek.*.nev|tipus|eredmeny');
+        $graduationResultDataList = $this->getDataValue($data, 'erettsegi-eredmenyek.*.nev|tipus|eredmeny');
 
         $collection = new GraduationResultCollection();
-        foreach ($dataGraduationResult as $data) {
+        foreach ($graduationResultDataList as $graduationResultData) {
             $collection[] = new GraduationResult(
-                GraduationSubject::from($data['nev']),
-                GraduationSubjectType::from($data['tipus']),
-                intval($data['eredmeny'])
+                GraduationSubject::from($graduationResultData['nev']),
+                GraduationSubjectType::from($graduationResultData['tipus']),
+                intval($graduationResultData['eredmeny'])
             );
         }
 
@@ -67,13 +67,13 @@ class StudentBuilder
 
         $firstKey = reset($keyParts);
         $isAllKey = $firstKey === '*';
-        $isMultiplieKey = strpos($firstKey, '|') !== false;
+        $isMultipleKey = strpos($firstKey, '|') !== false;
 
-        if ($isMultiplieKey) {
-            $multiplieKeys = explode('|', $firstKey);
+        if ($isMultipleKey) {
+            $multipleKeys = explode('|', $firstKey);
 
             $cachedData = [];
-            foreach ($multiplieKeys as $item) {
+            foreach ($multipleKeys as $item) {
                 $cachedData[$item] = $this->getDataValue($data, $item, $parentKeys);
             }
 
@@ -116,22 +116,22 @@ class StudentBuilder
         return $dataValue;
     }
 
-    public function build(array $datas)
+    public function build(array $data): Student
     {
-        $selectedSchool = $this->schools->findWithCallback(function (School $school) use ($datas) {
-            $dataUniversityName = $this->getDataValue($datas, 'valasztott-szak.egyetem');
-            $dataFaculty = $this->getDataValue($datas, 'valasztott-szak.kar');
-            $dataCurse = $this->getDataValue($datas, 'valasztott-szak.szak');
+        $selectedSchool = $this->schools->findWithCallback(function (School $school) use ($data) {
+            $dataUniversityName = $this->getDataValue($data, 'valasztott-szak.egyetem');
+            $dataFaculty = $this->getDataValue($data, 'valasztott-szak.kar');
+            $dataCourse = $this->getDataValue($data, 'valasztott-szak.szak');
 
             return $dataUniversityName === $school->getName()
                     && $dataFaculty === $school->getFaculty()
-                    && $dataCurse === $school->getCurse()->getName();
+                    && $dataCourse === $school->getCourse()->getName();
         });
 
         return new Student(
             $selectedSchool,
-            $this->buildGraduationResultCollection($datas),
-            $this->buildLanguageExamExtraPointCollection($datas)
+            $this->buildGraduationResultCollection($data),
+            $this->buildLanguageExamExtraPointCollection($data)
         );
     }
 }

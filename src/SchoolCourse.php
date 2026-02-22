@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace GreenZenMonk\SimplifiedScoreCalculator;
 
-use GreenZenMonk\SimplifiedScoreCalculator\SchoolCurse\RequiredGraduationSubject;
-use GreenZenMonk\SimplifiedScoreCalculator\SchoolCurse\RequiredGraduationSubjectCollection;
+use GreenZenMonk\SimplifiedScoreCalculator\SchoolCourse\RequiredGraduationSubject;
+use GreenZenMonk\SimplifiedScoreCalculator\SchoolCourse\RequiredGraduationSubjectCollection;
 
-final class SchoolCurse
+final class SchoolCourse
 {
     private string $name;
     private RequiredGraduationSubject $requiredGraduationSubject;

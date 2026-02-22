@@ -8,7 +8,7 @@ use GreenZenMonk\SimplifiedScoreCalculator\ScoreCalculator;
 use GreenZenMonk\SimplifiedScoreCalculator\Calculator\Middleware\BasicScore\RequiredGraduationSubjectCalculator;
 use GreenZenMonk\SimplifiedScoreCalculator\Calculator\Middleware\BasicScore\BestRequiredSelectableGraduationSubjectCalculator;
 use GreenZenMonk\SimplifiedScoreCalculator\Calculator\Middleware\BonusScore\GraduationSubjectTypeHighCalculator;
-use GreenZenMonk\SimplifiedScoreCalculator\Calculator\Middleware\BonusScore\LangaugeExamTypeCalculator;
+use GreenZenMonk\SimplifiedScoreCalculator\Calculator\Middleware\BonusScore\LanguageExamTypeCalculator;
 use GreenZenMonk\SimplifiedScoreCalculator\Calculator\CalculatorResult;
 use GreenZenMonk\SimplifiedScoreCalculator\Calculator\Validator\GraduationResultMinNotReachValidator;
 use GreenZenMonk\SimplifiedScoreCalculator\Calculator\Validator\RequiredDefaultGraduationSubjectsValidator;
@@ -36,29 +36,29 @@ class ScoreCalculatorTest extends TestCase
         $calculatorMiddleware = new RequiredGraduationSubjectCalculator();
         $calculatorMiddleware->linkWith(new BestRequiredSelectableGraduationSubjectCalculator())
                              ->linkWith(new GraduationSubjectTypeHighCalculator())
-                             ->linkWith(new LangaugeExamTypeCalculator());
+                             ->linkWith(new LanguageExamTypeCalculator());
 
 
         $this->calculator = new ScoreCalculator($validator, $calculatorMiddleware);
     }
 
-    public static function loadSuccessDummyDatas(): array
+    public static function loadSuccessDummyDataSets(): array
     {
-        return require __DIR__ . '/fixtures/calculator_success_student_datas.php';
+        return require __DIR__ . '/fixtures/calculator_success_student_data_sets.php';
     }
 
-    public static function loadUnsuccessDummyDatas(): array
+    public static function loadUnsuccessfulDummyDataSets(): array
     {
-        return require __DIR__ . '/fixtures/calculator_unsuccess_student_datas.php';
+        return require __DIR__ . '/fixtures/calculator_unsuccessful_student_data_sets.php';
     }
 
     /**
-     * @dataProvider loadSuccessDummyDatas
+     * @dataProvider loadSuccessDummyDataSets
      */
     public function testSuccessCalculate(
         Student $student,
         CalculatorResult $expectedCalculatorResult
-    ) {
+    ): void {
         $actualCalculatorResult = $this->calculator->calculate($student);
 
         $this->assertSame(
@@ -81,23 +81,23 @@ class ScoreCalculatorTest extends TestCase
     }
 
     /**
-     * @dataProvider loadUnsuccessDummyDatas
+     * @dataProvider loadUnsuccessfulDummyDataSets
      */
-    public function testUnsuccessCalculate(
+    public function testUnsuccessfulCalculate(
         Student $student,
-        ValidatorResult $validatorResult
-    ) {
+        ValidatorResult $_expectedValidatorResult
+    ): void {
         $this->expectException(ScoreCalculatorException::class);
         $this->calculator->calculate($student);
     }
 
     /**
-     * @dataProvider loadUnsuccessDummyDatas
+     * @dataProvider loadUnsuccessfulDummyDataSets
      */
-    public function testUnsuccessValidatorResult(
+    public function testUnsuccessfulValidatorResult(
         Student $student,
         ValidatorResult $expectedValidatorResult
-    ) {
+    ): void {
         $actualValidatorResult = $this->calculator->validate($student);
 
         $this->assertSame(
@@ -114,12 +114,12 @@ class ScoreCalculatorTest extends TestCase
     }
 
     /**
-     * @dataProvider loadSuccessDummyDatas
+     * @dataProvider loadSuccessDummyDataSets
      */
     public function testSuccessValidatorResult(
         Student $student,
-        CalculatorResult $expectedCalculatorResult
-    ) {
+        CalculatorResult $_expectedCalculatorResult
+    ): void {
         $actualValidatorResult = $this->calculator->validate($student);
 
         $expectedValidatorResult = new ValidatorResult();

@@ -10,21 +10,21 @@ final class School
 
     private string $faculty;
 
-    private SchoolCurse $curse;
+    private SchoolCourse $course;
 
     public function __construct(
         string $name,
         string $faculty,
-        SchoolCurse $curse
+        SchoolCourse $course
     ) {
         $this->name = $name;
         $this->faculty = $faculty;
-        $this->curse = $curse;
+        $this->course = $course;
     }
 
-    public function getCurse(): SchoolCurse
+    public function getCourse(): SchoolCourse
     {
-        return $this->curse;
+        return $this->course;
     }
 
     public function getName(): string
@@ -39,8 +39,8 @@ final class School
 
     public function getTitle(): string
     {
-        $schoolCurse = $this->getCurse();
+        $schoolCourse = $this->getCourse();
 
-        return $this->getName() . ' ' . $this->getFaculty() . ' - ' . $schoolCurse->getName();
+        return $this->getName() . ' ' . $this->getFaculty() . ' - ' . $schoolCourse->getName();
     }
 }

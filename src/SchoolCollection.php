@@ -8,7 +8,7 @@ use GreenZenMonk\SimplifiedScoreCalculator\AbstractCollection;
 
 final class SchoolCollection extends AbstractCollection
 {
-    protected function isValidItem($value): bool
+    protected function isValidItem(mixed $value): bool
     {
         return $value instanceof School;
     }

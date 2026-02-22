@@ -6,15 +6,15 @@ use GreenZenMonk\SimplifiedScoreCalculator\GraduationSubject;
 use GreenZenMonk\SimplifiedScoreCalculator\GraduationSubjectType;
 use GreenZenMonk\SimplifiedScoreCalculator\School;
 use GreenZenMonk\SimplifiedScoreCalculator\SchoolCollection;
-use GreenZenMonk\SimplifiedScoreCalculator\SchoolCurse;
-use GreenZenMonk\SimplifiedScoreCalculator\SchoolCurse\RequiredGraduationSubject;
-use GreenZenMonk\SimplifiedScoreCalculator\SchoolCurse\RequiredGraduationSubjectCollection;
+use GreenZenMonk\SimplifiedScoreCalculator\SchoolCourse;
+use GreenZenMonk\SimplifiedScoreCalculator\SchoolCourse\RequiredGraduationSubject;
+use GreenZenMonk\SimplifiedScoreCalculator\SchoolCourse\RequiredGraduationSubjectCollection;
 
 return new SchoolCollection([
     new School(
         'ELTE',
         'IK',
-        new SchoolCurse(
+        new SchoolCourse(
             'Programtervező informatikus',
             new RequiredGraduationSubject(GraduationSubject::MATHEMATICS),
             new RequiredGraduationSubjectCollection(
@@ -30,7 +30,7 @@ return new SchoolCollection([
     new School(
         'PPKE',
         'BTK',
-        new SchoolCurse(
+        new SchoolCourse(
             'Anglisztika',
             new RequiredGraduationSubject(GraduationSubject::ENGLISH_GRAMMAR, GraduationSubjectType::HIGH),
             new RequiredGraduationSubjectCollection(
