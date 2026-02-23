@@ -9,7 +9,7 @@ enum GraduationSubject: string
     case HungarianGrammarAndLiterature = 'magyar nyelv és irodalom';
     case Histor = 'történelem';
     case Mathematics = 'matematika';
-    case IT = 'informatika';
+    case InformationTechnology = 'informatika';
     case Physics = 'fizika';
     case Biology = 'biológia';
     case Chemistry = 'kémia';

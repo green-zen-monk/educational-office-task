@@ -21,7 +21,7 @@ return new SchoolCollection([
                 [
                     new RequiredGraduationSubject(GraduationSubject::Biology),
                     new RequiredGraduationSubject(GraduationSubject::Physics),
-                    new RequiredGraduationSubject(GraduationSubject::IT),
+                    new RequiredGraduationSubject(GraduationSubject::InformationTechnology),
                     new RequiredGraduationSubject(GraduationSubject::Chemistry)
                 ]
             )
