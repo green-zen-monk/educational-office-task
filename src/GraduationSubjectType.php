@@ -6,11 +6,11 @@ namespace GreenZenMonk\SimplifiedScoreCalculator;
 
 enum GraduationSubjectType: string
 {
-    case MEDIUM = 'közép';
-    case HIGH = 'emelt';
+    case Medium = 'közép';
+    case High = 'emelt';
 
     public function isHigh(): bool
     {
-        return $this === self::HIGH;
+        return $this === self::High;
     }
 }

@@ -16,13 +16,13 @@ return new SchoolCollection([
         'IK',
         new SchoolCourse(
             'Programtervező informatikus',
-            new RequiredGraduationSubject(GraduationSubject::MATHEMATICS),
+            new RequiredGraduationSubject(GraduationSubject::Mathematics),
             new RequiredGraduationSubjectCollection(
                 [
-                    new RequiredGraduationSubject(GraduationSubject::BIOLOGY),
-                    new RequiredGraduationSubject(GraduationSubject::PHYSICS),
+                    new RequiredGraduationSubject(GraduationSubject::Biology),
+                    new RequiredGraduationSubject(GraduationSubject::Physics),
                     new RequiredGraduationSubject(GraduationSubject::IT),
-                    new RequiredGraduationSubject(GraduationSubject::CHEMISTRY)
+                    new RequiredGraduationSubject(GraduationSubject::Chemistry)
                 ]
             )
         )
@@ -32,15 +32,15 @@ return new SchoolCollection([
         'BTK',
         new SchoolCourse(
             'Anglisztika',
-            new RequiredGraduationSubject(GraduationSubject::ENGLISH_GRAMMAR, GraduationSubjectType::HIGH),
+            new RequiredGraduationSubject(GraduationSubject::EnglishGrammar, GraduationSubjectType::High),
             new RequiredGraduationSubjectCollection(
                 [
-                    new RequiredGraduationSubject(GraduationSubject::FRENCH_GRAMMAR),
-                    new RequiredGraduationSubject(GraduationSubject::GERMAN_GRAMMAR),
-                    new RequiredGraduationSubject(GraduationSubject::ITALIAN_GRAMMAR),
-                    new RequiredGraduationSubject(GraduationSubject::RUSSIAN_GRAMMAR),
-                    new RequiredGraduationSubject(GraduationSubject::SPANISH_GRAMMAR),
-                    new RequiredGraduationSubject(GraduationSubject::HISTORY)
+                    new RequiredGraduationSubject(GraduationSubject::FrenchGrammar),
+                    new RequiredGraduationSubject(GraduationSubject::GermanGrammar),
+                    new RequiredGraduationSubject(GraduationSubject::ItalianGrammar),
+                    new RequiredGraduationSubject(GraduationSubject::RussianGrammar),
+                    new RequiredGraduationSubject(GraduationSubject::SpanishGrammar),
+                    new RequiredGraduationSubject(GraduationSubject::Histor)
                 ]
             )
         )

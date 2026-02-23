@@ -16,13 +16,13 @@ class ValueObjectTest extends TestCase
     public function testGraduationResultAcceptsBoundaryValues(): void
     {
         $minResult = new GraduationResult(
-            GraduationSubject::MATHEMATICS,
-            GraduationSubjectType::MEDIUM,
+            GraduationSubject::Mathematics,
+            GraduationSubjectType::Medium,
             0
         );
         $maxResult = new GraduationResult(
-            GraduationSubject::MATHEMATICS,
-            GraduationSubjectType::HIGH,
+            GraduationSubject::Mathematics,
+            GraduationSubjectType::High,
             100
         );
 
@@ -35,8 +35,8 @@ class ValueObjectTest extends TestCase
         $this->expectException(InvalidArgumentException::class);
 
         new GraduationResult(
-            GraduationSubject::MATHEMATICS,
-            GraduationSubjectType::MEDIUM,
+            GraduationSubject::Mathematics,
+            GraduationSubjectType::Medium,
             -1
         );
     }
@@ -46,8 +46,8 @@ class ValueObjectTest extends TestCase
         $this->expectException(InvalidArgumentException::class);
 
         new GraduationResult(
-            GraduationSubject::MATHEMATICS,
-            GraduationSubjectType::MEDIUM,
+            GraduationSubject::Mathematics,
+            GraduationSubjectType::Medium,
             101
         );
     }
@@ -55,30 +55,30 @@ class ValueObjectTest extends TestCase
     public function testRequiredGraduationSubjectMediumAlsoAcceptsHighExam(): void
     {
         $requiredSubject = new RequiredGraduationSubject(
-            GraduationSubject::HISTORY,
-            GraduationSubjectType::MEDIUM
+            GraduationSubject::Histor,
+            GraduationSubjectType::Medium
         );
 
         $this->assertTrue(
-            $requiredSubject->isAvailable(GraduationSubject::HISTORY, GraduationSubjectType::MEDIUM)
+            $requiredSubject->isAvailable(GraduationSubject::Histor, GraduationSubjectType::Medium)
         );
         $this->assertTrue(
-            $requiredSubject->isAvailable(GraduationSubject::HISTORY, GraduationSubjectType::HIGH)
+            $requiredSubject->isAvailable(GraduationSubject::Histor, GraduationSubjectType::High)
         );
     }
 
     public function testRequiredGraduationSubjectHighRequiresHighExam(): void
     {
         $requiredSubject = new RequiredGraduationSubject(
-            GraduationSubject::ENGLISH_GRAMMAR,
-            GraduationSubjectType::HIGH
+            GraduationSubject::EnglishGrammar,
+            GraduationSubjectType::High
         );
 
         $this->assertFalse(
-            $requiredSubject->isAvailable(GraduationSubject::ENGLISH_GRAMMAR, GraduationSubjectType::MEDIUM)
+            $requiredSubject->isAvailable(GraduationSubject::EnglishGrammar, GraduationSubjectType::Medium)
         );
         $this->assertTrue(
-            $requiredSubject->isAvailable(GraduationSubject::ENGLISH_GRAMMAR, GraduationSubjectType::HIGH)
+            $requiredSubject->isAvailable(GraduationSubject::EnglishGrammar, GraduationSubjectType::High)
         );
     }
 }

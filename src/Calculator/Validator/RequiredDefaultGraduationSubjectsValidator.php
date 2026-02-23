@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace GreenZenMonk\SimplifiedScoreCalculator\Calculator\Validator;
 
-use GreenZenMonk\SimplifiedScoreCalculator\Calculator\AbstractValidator;
+use GreenZenMonk\SimplifiedScoreCalculator\Calculator\Validator\AbstractValidator;
 use GreenZenMonk\SimplifiedScoreCalculator\Calculator\ValidatorResult;
 use GreenZenMonk\SimplifiedScoreCalculator\GraduationSubject;
 use GreenZenMonk\SimplifiedScoreCalculator\Student;
@@ -13,9 +13,9 @@ use GreenZenMonk\SimplifiedScoreCalculator\Student\GraduationResult;
 final class RequiredDefaultGraduationSubjectsValidator extends AbstractValidator
 {
     private const REQUIRED_GRADUATION_SUBJECTS = [
-        GraduationSubject::HUNGARIAN_GRAMMAR_AND_LITERATURE,
-        GraduationSubject::HISTORY,
-        GraduationSubject::MATHEMATICS
+        GraduationSubject::HungarianGrammarAndLiterature,
+        GraduationSubject::Histor,
+        GraduationSubject::Mathematics
     ];
 
     protected function doCheck(Student $student): ValidatorResult

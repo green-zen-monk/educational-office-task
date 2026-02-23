@@ -14,7 +14,7 @@ final readonly class RequiredGraduationSubject
 
     public function __construct(
         GraduationSubject $subject,
-        GraduationSubjectType $subjectType = GraduationSubjectType::MEDIUM
+        GraduationSubjectType $subjectType = GraduationSubjectType::Medium
     ) {
         $this->subject = $subject;
         $this->subjectType = $subjectType;
@@ -35,7 +35,7 @@ final readonly class RequiredGraduationSubject
     ): bool {
         return $actualSubject === $this->subject
                && (
-                   $this->subjectType !== GraduationSubjectType::HIGH
+                   $this->subjectType !== GraduationSubjectType::High
                     || $actualSubjectType === $this->subjectType
                );
     }

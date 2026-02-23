@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace GreenZenMonk\SimplifiedScoreCalculator\Calculator\Validator;
 
-use GreenZenMonk\SimplifiedScoreCalculator\Calculator\AbstractValidator;
+use GreenZenMonk\SimplifiedScoreCalculator\Calculator\Validator\AbstractValidator;
 use GreenZenMonk\SimplifiedScoreCalculator\Calculator\ValidatorResult;
 use GreenZenMonk\SimplifiedScoreCalculator\Student;
 

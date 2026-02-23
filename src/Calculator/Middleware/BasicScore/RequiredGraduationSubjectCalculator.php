@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace GreenZenMonk\SimplifiedScoreCalculator\Calculator\Middleware\BasicScore;
 
-use GreenZenMonk\SimplifiedScoreCalculator\Calculator\AbstractMiddleware;
+use GreenZenMonk\SimplifiedScoreCalculator\Calculator\Middleware\AbstractMiddleware;
 use GreenZenMonk\SimplifiedScoreCalculator\Calculator\ScoreAccumulator;
 use GreenZenMonk\SimplifiedScoreCalculator\Student;
 

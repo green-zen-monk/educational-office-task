@@ -2,8 +2,9 @@
 
 declare(strict_types=1);
 
-namespace GreenZenMonk\SimplifiedScoreCalculator\Calculator;
+namespace GreenZenMonk\SimplifiedScoreCalculator\Calculator\Middleware;
 
+use GreenZenMonk\SimplifiedScoreCalculator\Calculator\CalculatorResult;
 use GreenZenMonk\SimplifiedScoreCalculator\Calculator\ScoreAccumulator;
 use GreenZenMonk\SimplifiedScoreCalculator\Student;
 
