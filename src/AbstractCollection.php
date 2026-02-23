@@ -85,7 +85,7 @@ abstract class AbstractCollection implements Iterator, ArrayAccess, Countable
     public function offsetSet($key, $item): void
     {
         $this->validate($item);
-        if (!empty($key)) {
+        if ($key !== null) {
             $this->collection[$key] = $item;
         } else {
             $this->collection[] = $item;

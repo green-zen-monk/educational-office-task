@@ -87,6 +87,35 @@ class ScoreCalculatorTest extends TestCase
     }
 
     /**
+     * @dataProvider loadSuccessDummyDataSets
+     */
+    public function testSuccessCalculateDoesNotAccumulateAcrossCalls(
+        Student $student,
+        CalculatorResult $_expectedCalculatorResult
+    ): void {
+        $firstCalculation = $this->calculator->calculate($student);
+        $secondCalculation = $this->calculator->calculate($student);
+
+        $this->assertSame(
+            $firstCalculation->getBasicScore(),
+            $secondCalculation->getBasicScore(),
+            'Basic Score should not accumulate across calculate() calls'
+        );
+
+        $this->assertSame(
+            $firstCalculation->getBonusScore(),
+            $secondCalculation->getBonusScore(),
+            'Bonus Score should not accumulate across calculate() calls'
+        );
+
+        $this->assertSame(
+            $firstCalculation->getTotalScore(),
+            $secondCalculation->getTotalScore(),
+            'Total Score should not accumulate across calculate() calls'
+        );
+    }
+
+    /**
      * @dataProvider loadUnsuccessfulDummyDataSets
      */
     public function testUnsuccessfulCalculate(

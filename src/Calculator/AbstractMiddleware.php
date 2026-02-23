@@ -11,8 +11,6 @@ abstract class AbstractMiddleware
 {
     private ?AbstractMiddleware $link = null;
 
-    private ?CalculatorResult $defaultCalculatorResult = null;
-
     public function linkWith(AbstractMiddleware $link): AbstractMiddleware
     {
         $this->link = $link;
@@ -22,26 +20,18 @@ abstract class AbstractMiddleware
 
     public function calculate(Student $student): CalculatorResult
     {
-        if ($this->defaultCalculatorResult === null) {
-            $this->setDefaultCalculatorResult(new CalculatorResult());
-        }
+        return $this->calculateChain($student, new CalculatorResult());
+    }
 
-        $calculatorResult = $this->doCalculate($student, $this->defaultCalculatorResult);
+    private function calculateChain(Student $student, CalculatorResult $calculatorResult): CalculatorResult
+    {
+        $calculatorResult = $this->doCalculate($student, $calculatorResult);
 
         if ($this->link === null) {
             return $calculatorResult;
         }
 
-        return $this->link
-                    ->setDefaultCalculatorResult($calculatorResult)
-                    ->calculate($student);
-    }
-
-    public function setDefaultCalculatorResult(CalculatorResult $result): self
-    {
-        $this->defaultCalculatorResult = $result;
-
-        return $this;
+        return $this->link->calculateChain($student, $calculatorResult);
     }
 
     abstract protected function doCalculate(
