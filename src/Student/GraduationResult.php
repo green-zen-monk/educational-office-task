@@ -6,9 +6,13 @@ namespace GreenZenMonk\SimplifiedScoreCalculator\Student;
 
 use GreenZenMonk\SimplifiedScoreCalculator\GraduationSubject;
 use GreenZenMonk\SimplifiedScoreCalculator\GraduationSubjectType;
+use InvalidArgumentException;
 
-class GraduationResult
+final readonly class GraduationResult
 {
+    private const MIN_RESULT = 0;
+    private const MAX_RESULT = 100;
+
     private GraduationSubject $graduationSubject;
     private GraduationSubjectType $graduationSubjectType;
     private int $result;
@@ -18,6 +22,12 @@ class GraduationResult
         GraduationSubjectType $graduationSubjectType,
         int $result
     ) {
+        if ($result < self::MIN_RESULT || $result > self::MAX_RESULT) {
+            throw new InvalidArgumentException(
+                'Az érettségi eredmény csak ' . self::MIN_RESULT . '% és ' . self::MAX_RESULT . '% között lehet.'
+            );
+        }
+
         $this->result = $result;
         $this->graduationSubject = $graduationSubject;
         $this->graduationSubjectType = $graduationSubjectType;

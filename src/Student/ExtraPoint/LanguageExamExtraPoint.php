@@ -9,7 +9,7 @@ use GreenZenMonk\SimplifiedScoreCalculator\Student\ExtraPointCategory;
 use GreenZenMonk\SimplifiedScoreCalculator\Student\ExtraPointParameter\LanguageExamType;
 use GreenZenMonk\SimplifiedScoreCalculator\Student\ExtraPointParameter\LanguageExamSubject;
 
-final class LanguageExamExtraPoint implements ExtraPointInterface
+final readonly class LanguageExamExtraPoint implements ExtraPointInterface
 {
     private ExtraPointCategory $category;
     private LanguageExamSubject $subject;

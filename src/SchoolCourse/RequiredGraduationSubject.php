@@ -7,7 +7,7 @@ namespace GreenZenMonk\SimplifiedScoreCalculator\SchoolCourse;
 use GreenZenMonk\SimplifiedScoreCalculator\GraduationSubject;
 use GreenZenMonk\SimplifiedScoreCalculator\GraduationSubjectType;
 
-class RequiredGraduationSubject
+final readonly class RequiredGraduationSubject
 {
     private GraduationSubject $subject;
     private GraduationSubjectType $subjectType;
