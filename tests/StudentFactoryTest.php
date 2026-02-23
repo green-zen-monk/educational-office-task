@@ -6,6 +6,7 @@ namespace Tests;
 
 use GreenZenMonk\SimplifiedScoreCalculator\StudentFactory;
 use GreenZenMonk\SimplifiedScoreCalculator\StudentFactoryException;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -45,9 +46,9 @@ class StudentFactoryTest extends TestCase
     }
 
     /**
-     * @dataProvider loadDummyValidData
      * @param StudentData $dataSet
      */
+    #[DataProvider('loadDummyValidData')]
     public function testSelectedSchools(array $dataSet): void
     {
         $student = $this->studentFactory->create($dataSet);
@@ -72,9 +73,9 @@ class StudentFactoryTest extends TestCase
     }
 
     /**
-     * @dataProvider loadDummyValidData
      * @param StudentData $dataSet
      */
+    #[DataProvider('loadDummyValidData')]
     public function testGraduationResultCollection(array $dataSet): void
     {
         $student = $this->studentFactory->create($dataSet);
@@ -109,9 +110,9 @@ class StudentFactoryTest extends TestCase
     }
 
     /**
-     * @dataProvider loadDummyValidData
      * @param StudentData $dataSet
      */
+    #[DataProvider('loadDummyValidData')]
     public function testExtraPointCollection(array $dataSet): void
     {
         $student = $this->studentFactory->create($dataSet);
@@ -145,9 +146,9 @@ class StudentFactoryTest extends TestCase
     }
 
     /**
-     * @dataProvider loadDummyInvalidData
      * @param array<array-key, mixed> $dataSet
      */
+    #[DataProvider('loadDummyInvalidData')]
     public function testInvalidData(array $dataSet): void
     {
         $this->expectException(StudentFactoryException::class);

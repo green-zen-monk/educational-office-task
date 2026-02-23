@@ -17,6 +17,7 @@ use GreenZenMonk\SimplifiedScoreCalculator\Calculator\Validator\RequiredSelectab
 use GreenZenMonk\SimplifiedScoreCalculator\Calculator\ValidatorResult;
 use GreenZenMonk\SimplifiedScoreCalculator\ScoreCalculatorException;
 use GreenZenMonk\SimplifiedScoreCalculator\Student;
+use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 
 /**
@@ -58,9 +59,7 @@ class ScoreCalculatorTest extends TestCase
         return require __DIR__ . '/fixtures/calculator_unsuccessful_student_data_sets.php';
     }
 
-    /**
-     * @dataProvider loadSuccessDummyDataSets
-     */
+    #[DataProvider('loadSuccessDummyDataSets')]
     public function testSuccessCalculate(
         Student $student,
         CalculatorResult $expectedCalculatorResult
@@ -86,9 +85,7 @@ class ScoreCalculatorTest extends TestCase
         );
     }
 
-    /**
-     * @dataProvider loadSuccessDummyDataSets
-     */
+    #[DataProvider('loadSuccessDummyDataSets')]
     public function testSuccessCalculateDoesNotAccumulateAcrossCalls(
         Student $student,
         CalculatorResult $_expectedCalculatorResult
@@ -115,9 +112,7 @@ class ScoreCalculatorTest extends TestCase
         );
     }
 
-    /**
-     * @dataProvider loadUnsuccessfulDummyDataSets
-     */
+    #[DataProvider('loadUnsuccessfulDummyDataSets')]
     public function testUnsuccessfulCalculate(
         Student $student,
         ValidatorResult $_expectedValidatorResult
@@ -126,9 +121,7 @@ class ScoreCalculatorTest extends TestCase
         $this->calculator->calculate($student);
     }
 
-    /**
-     * @dataProvider loadUnsuccessfulDummyDataSets
-     */
+    #[DataProvider('loadUnsuccessfulDummyDataSets')]
     public function testUnsuccessfulValidatorResult(
         Student $student,
         ValidatorResult $expectedValidatorResult
@@ -148,9 +141,7 @@ class ScoreCalculatorTest extends TestCase
         );
     }
 
-    /**
-     * @dataProvider loadSuccessDummyDataSets
-     */
+    #[DataProvider('loadSuccessDummyDataSets')]
     public function testSuccessValidatorResult(
         Student $student,
         CalculatorResult $_expectedCalculatorResult
