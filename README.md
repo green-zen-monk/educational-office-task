@@ -1,10 +1,15 @@
 # Educational Office Task
 
+[![CI](https://img.shields.io/github/actions/workflow/status/green-zen-monk/educational-office-task/ci.yml?label=CI)](https://github.com/green-zen-monk/educational-office-task/actions/workflows/ci.yml)
+[![PHPStan level: 8](https://img.shields.io/badge/PHPStan-level%208-31C652.svg?logo=php&logoColor=white)](https://phpstan.org/)
+[![PHP-CS-Fixer: PSR-12](https://img.shields.io/badge/PHP--CS--Fixer-PSR--12-F7B93E.svg?logo=php&logoColor=white)](https://cs.symfony.com/)
+
 A simplified higher-education admission score calculator PHP library.
 
 ## What Is This Library For?
 
-This package calculates an applicant's admission score from input data (selected program, graduation exam results, extra points).
+This package calculates an applicant's admission score from input data
+(selected program, graduation exam results, extra points).
 
 - Validates required and required-selectable subjects.
 - Validates the minimum score threshold of 20%.
@@ -154,15 +159,18 @@ Required top-level keys:
 
 ### `StudentFactoryException`
 
-`StudentFactory::create()` throws this when input structure is missing or invalid (for example missing keys or invalid nested structure).
+`StudentFactory::create()` throws this when input structure is missing or invalid
+(for example missing keys or invalid nested structure).
 
 ### `ScoreCalculatorException`
 
 `ScoreCalculator::calculate()` throws this when the applicant fails validation.
 The exception message is the validator error message.
 
-Note: Invalid enum values (for example unknown subject or unsupported type) can raise native PHP `ValueError`.
-If the selected program does not exist in `SchoolCollection`, factory flow may later fail with `TypeError`.
+Note: Invalid enum values (for example unknown subject or unsupported type)
+can raise native PHP `ValueError`.
+If the selected program does not exist in `SchoolCollection`, factory flow may
+later fail with `TypeError`.
 
 ## Architecture (validator + middleware pipeline)
 
@@ -207,7 +215,8 @@ make docker-down
 
 ## Code Quality
 
-PHPStan (`level 8`) and PHP-CS-Fixer (`PSR-12`) are configured in this repository.
+PHPStan (`level 8`) and PHP-CS-Fixer (`PSR-12`) are configured in this
+repository.
 
 ```bash
 make phpstan
