@@ -23,7 +23,13 @@ final class RequiredGraduationSubjectCalculator extends AbstractMiddleware
             $requiredGraduationSubject
         );
 
-        $basicScore = $requiredGraduationSubjectResult->getResult() * 2;
+        $subjectScore = 0;
+
+        if ($requiredGraduationSubjectResult !== null) {
+            $subjectScore = $requiredGraduationSubjectResult->getResult();
+        }
+
+        $basicScore = $subjectScore * 2;
 
         $scoreAccumulator->addBasicScore($basicScore);
 

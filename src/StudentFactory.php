@@ -27,8 +27,18 @@ class StudentFactory
      */
     public function create(array $data): Student
     {
+        if (empty($data)) {
+            throw new StudentFactoryException('Has no data to create student!');
+        }
+
+        $school = $this->findSelectedSchool($data);
+
+        if ($school === null) {
+            throw new StudentFactoryException('Has no selected school!');
+        }
+
         return new Student(
-            $this->findSelectedSchool($data),
+            $school,
             $this->createGraduationResultCollection($data),
             $this->createLanguageExamExtraPointCollection($data)
         );
@@ -37,7 +47,7 @@ class StudentFactory
     /**
      * @param array<array-key, mixed> $data
      */
-    private function findSelectedSchool(array $data): ?object
+    private function findSelectedSchool(array $data): ?School
     {
         /** @var string $dataUniversityName */
         $dataUniversityName = $this->getDataValue($data, 'valasztott-szak.egyetem');

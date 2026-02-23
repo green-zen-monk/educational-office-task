@@ -49,7 +49,13 @@ final class BestRequiredSelectableGraduationSubjectCalculator extends AbstractMi
             $graduationResultCollection
         );
 
-        $basicScore = $bestRequiredSelectableGraduationSubjectResults->getResult() * 2;
+        $subjectScore = 0;
+
+        if ($bestRequiredSelectableGraduationSubjectResults !== null) {
+            $subjectScore = $bestRequiredSelectableGraduationSubjectResults->getResult();
+        }
+
+        $basicScore = $subjectScore * 2;
 
         $scoreAccumulator->addBasicScore($basicScore);
 

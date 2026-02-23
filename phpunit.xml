@@ -1,7 +1,37 @@
-<phpunit bootstrap="vendor/autoload.php">
+<?xml version="1.0" encoding="UTF-8"?>
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="vendor/phpunit/phpunit/phpunit.xsd"
+         bootstrap="vendor/autoload.php"
+         cacheDirectory=".phpunit.cache"
+         colors="true"
+         executionOrder="depends,defects"
+         failOnRisky="true"
+         failOnWarning="true"
+         beStrictAboutChangesToGlobalState="true"
+         beStrictAboutOutputDuringTests="true">
     <testsuites>
-        <testsuite name="phpunit basics">
-            <directory>tests/</directory>
+        <testsuite name="Unit">
+            <directory suffix="Test.php">tests</directory>
         </testsuite>
     </testsuites>
+
+    <coverage cacheDirectory=".phpunit.coverage.cache"
+              includeUncoveredFiles="true">
+        <include>
+            <directory suffix=".php">src</directory>
+        </include>
+        <report>
+            <clover outputFile="build/coverage/clover.xml"/>
+            <cobertura outputFile="build/coverage/cobertura.xml"/>
+            <html outputDirectory="build/coverage/html"/>
+            <text outputFile="php://stdout" showOnlySummary="false"/>
+            <xml outputDirectory="build/coverage/xml"/>
+        </report>
+    </coverage>
+
+    <php>
+        <ini name="display_errors" value="1"/>
+        <ini name="error_reporting" value="-1"/>
+        <env name="APP_ENV" value="test"/>
+    </php>
 </phpunit>

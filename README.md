@@ -207,7 +207,7 @@ make docker-down
 
 ## Code Quality
 
-PHPStan (`level 5`) and PHP-CS-Fixer (`PSR-12`) are configured in this repository.
+PHPStan (`level 8`) and PHP-CS-Fixer (`PSR-12`) are configured in this repository.
 
 ```bash
 make phpstan

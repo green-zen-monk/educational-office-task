@@ -34,14 +34,33 @@ abstract class AbstractCollection implements Iterator, ArrayAccess, Countable
         $this->collection = $collection;
     }
 
+    /**
+     * @return TValue
+     */
     public function current(): mixed
     {
-        return current($this->collection);
+        $item = current($this->collection);
+
+        if ($item === false) {
+            throw new Exception('Has no items in collection!');
+        }
+
+        return $item;
     }
 
+    /**
+     * @return TKey
+     */
     public function key(): mixed
     {
-        return key($this->collection);
+        $key = key($this->collection);
+
+        if ($key === null) {
+            throw new Exception('Has no items in collection!');
+        }
+
+        /** @var TKey $key */
+        return $key;
     }
 
     public function next(): void

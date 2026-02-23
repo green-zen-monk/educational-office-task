@@ -13,7 +13,14 @@ RUN apt-get update \
         dom \
         xml \
         xmlwriter \
+    && pecl install xdebug \
+    && docker-php-ext-enable xdebug \
     && rm -rf /var/lib/apt/lists/*
+
+RUN { \
+      echo "xdebug.mode=coverage"; \
+      echo "xdebug.start_with_request=no"; \
+    } > /usr/local/etc/php/conf.d/zz-xdebug-settings.ini
 
 COPY --from=composer:2 /usr/bin/composer /usr/local/bin/composer
 
