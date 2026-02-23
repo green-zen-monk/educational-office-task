@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace GreenZenMonk\SimplifiedScoreCalculator\Calculator;
 
-final class ValidatorResult
+final readonly class ValidatorResult
 {
     private bool $isValid;
 
