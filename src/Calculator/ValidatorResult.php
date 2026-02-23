@@ -8,7 +8,7 @@ final class ValidatorResult
 {
     private bool $isValid;
 
-    private ?string $message;
+    private string $message;
 
     public function __construct(bool $isValid = true, string $message = 'A tanuló pontozható!')
     {
