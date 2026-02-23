@@ -6,7 +6,7 @@ namespace GreenZenMonk\SimplifiedScoreCalculator\Calculator\Middleware\BasicScor
 
 use GreenZenMonk\SimplifiedScoreCalculator\SchoolCourse\RequiredGraduationSubjectCollection;
 use GreenZenMonk\SimplifiedScoreCalculator\Calculator\AbstractMiddleware;
-use GreenZenMonk\SimplifiedScoreCalculator\Calculator\CalculatorResult;
+use GreenZenMonk\SimplifiedScoreCalculator\Calculator\ScoreAccumulator;
 use GreenZenMonk\SimplifiedScoreCalculator\Student;
 use GreenZenMonk\SimplifiedScoreCalculator\Student\GraduationResult;
 use GreenZenMonk\SimplifiedScoreCalculator\Student\GraduationResultCollection;
@@ -35,7 +35,7 @@ final class BestRequiredSelectableGraduationSubjectCalculator extends AbstractMi
         return $selectedRequiredGraduationSubject;
     }
 
-    protected function doCalculate(Student $student, CalculatorResult $calculatorResult): CalculatorResult
+    protected function doCalculate(Student $student, ScoreAccumulator $scoreAccumulator): ScoreAccumulator
     {
         $graduationResultCollection = $student->getGraduationResultCollection();
 
@@ -51,8 +51,8 @@ final class BestRequiredSelectableGraduationSubjectCalculator extends AbstractMi
 
         $basicScore = $bestRequiredSelectableGraduationSubjectResults->getResult() * 2;
 
-        $calculatorResult->addBasicScore($basicScore);
+        $scoreAccumulator->addBasicScore($basicScore);
 
-        return $calculatorResult;
+        return $scoreAccumulator;
     }
 }

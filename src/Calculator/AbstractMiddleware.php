@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace GreenZenMonk\SimplifiedScoreCalculator\Calculator;
 
-use GreenZenMonk\SimplifiedScoreCalculator\Calculator\CalculatorResult;
+use GreenZenMonk\SimplifiedScoreCalculator\Calculator\ScoreAccumulator;
 use GreenZenMonk\SimplifiedScoreCalculator\Student;
 
 abstract class AbstractMiddleware
@@ -20,22 +20,24 @@ abstract class AbstractMiddleware
 
     public function calculate(Student $student): CalculatorResult
     {
-        return $this->calculateChain($student, new CalculatorResult());
+        $scoreAccumulator = $this->calculateChain($student, new ScoreAccumulator());
+
+        return $scoreAccumulator->toResult();
     }
 
-    private function calculateChain(Student $student, CalculatorResult $calculatorResult): CalculatorResult
+    private function calculateChain(Student $student, ScoreAccumulator $scoreAccumulator): ScoreAccumulator
     {
-        $calculatorResult = $this->doCalculate($student, $calculatorResult);
+        $scoreAccumulator = $this->doCalculate($student, $scoreAccumulator);
 
         if ($this->link === null) {
-            return $calculatorResult;
+            return $scoreAccumulator;
         }
 
-        return $this->link->calculateChain($student, $calculatorResult);
+        return $this->link->calculateChain($student, $scoreAccumulator);
     }
 
     abstract protected function doCalculate(
         Student $student,
-        CalculatorResult $calculatorResult
-    ): CalculatorResult;
+        ScoreAccumulator $scoreAccumulator
+    ): ScoreAccumulator;
 }

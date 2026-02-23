@@ -4,45 +4,41 @@ declare(strict_types=1);
 
 namespace GreenZenMonk\SimplifiedScoreCalculator\Calculator;
 
+use InvalidArgumentException;
+
 final class CalculatorResult
 {
     private const MAX_BONUS_SCORE = 100;
 
-    private int $totalScore = 0;
+    private int $totalScore;
 
-    private int $basicScore = 0;
+    private int $basicScore;
 
-    private int $bonusScore = 0;
+    private int $bonusScore;
 
     public function __construct(
         int $basicScore = 0,
         int $bonusScore = 0,
-        int $totalScore = 0
+        ?int $totalScore = null
     ) {
-        $this->basicScore = $basicScore;
-        $this->bonusScore = $bonusScore;
-        $this->totalScore = $totalScore;
-    }
-
-    public function addBasicScore(int $score): self
-    {
-        $this->basicScore += $score;
-        $this->totalScore += $score;
-
-        return $this;
-    }
-
-    public function addBonusScore(int $score): self
-    {
-        $calculatedBonusScore = $this->bonusScore + $score;
-        if ($calculatedBonusScore > self::MAX_BONUS_SCORE) {
-            $score -= ($calculatedBonusScore - self::MAX_BONUS_SCORE);
+        if ($basicScore < 0) {
+            throw new InvalidArgumentException('A basicScore nem lehet negatív!');
+        }
+        if ($bonusScore < 0 || $bonusScore > self::MAX_BONUS_SCORE) {
+            throw new InvalidArgumentException(
+                'A bonusScore értéke 0 és ' . self::MAX_BONUS_SCORE . ' között lehet!'
+            );
         }
 
-        $this->bonusScore += $score;
-        $this->totalScore += $score;
+        $calculatedTotalScore = $basicScore + $bonusScore;
+        $resolvedTotalScore = $totalScore ?? $calculatedTotalScore;
+        if ($resolvedTotalScore !== $calculatedTotalScore) {
+            throw new InvalidArgumentException('A totalScore értéke nem egyezik a basic+bonus összeggel!');
+        }
 
-        return $this;
+        $this->basicScore = $basicScore;
+        $this->bonusScore = $bonusScore;
+        $this->totalScore = $resolvedTotalScore;
     }
 
     public function getTotalScore(): int

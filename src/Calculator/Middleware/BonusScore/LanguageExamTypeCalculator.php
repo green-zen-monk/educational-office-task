@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace GreenZenMonk\SimplifiedScoreCalculator\Calculator\Middleware\BonusScore;
 
 use GreenZenMonk\SimplifiedScoreCalculator\Calculator\AbstractMiddleware;
-use GreenZenMonk\SimplifiedScoreCalculator\Calculator\CalculatorResult;
+use GreenZenMonk\SimplifiedScoreCalculator\Calculator\ScoreAccumulator;
 use GreenZenMonk\SimplifiedScoreCalculator\Student;
 
 final class LanguageExamTypeCalculator extends AbstractMiddleware
@@ -14,7 +14,7 @@ final class LanguageExamTypeCalculator extends AbstractMiddleware
 
     private const LANGUAGE_EXAM_TYPE_SCORE_B2 = 28;
 
-    protected function doCalculate(Student $student, CalculatorResult $calculatorResult): CalculatorResult
+    protected function doCalculate(Student $student, ScoreAccumulator $scoreAccumulator): ScoreAccumulator
     {
         $languageExamCollection = $student->getLanguageExamCollection();
 
@@ -42,8 +42,8 @@ final class LanguageExamTypeCalculator extends AbstractMiddleware
 
         $bonusScore = array_sum($bonusScores);
 
-        $calculatorResult->addBonusScore($bonusScore);
+        $scoreAccumulator->addBonusScore($bonusScore);
 
-        return $calculatorResult;
+        return $scoreAccumulator;
     }
 }

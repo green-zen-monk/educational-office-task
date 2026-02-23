@@ -5,14 +5,14 @@ declare(strict_types=1);
 namespace GreenZenMonk\SimplifiedScoreCalculator\Calculator\Middleware\BonusScore;
 
 use GreenZenMonk\SimplifiedScoreCalculator\Calculator\AbstractMiddleware;
-use GreenZenMonk\SimplifiedScoreCalculator\Calculator\CalculatorResult;
+use GreenZenMonk\SimplifiedScoreCalculator\Calculator\ScoreAccumulator;
 use GreenZenMonk\SimplifiedScoreCalculator\Student;
 
 final class GraduationSubjectTypeHighCalculator extends AbstractMiddleware
 {
     private const GRADUATION_SUBJECT_TYPE_HIGH_SCORE = 50;
 
-    protected function doCalculate(Student $student, CalculatorResult $calculatorResult): CalculatorResult
+    protected function doCalculate(Student $student, ScoreAccumulator $scoreAccumulator): ScoreAccumulator
     {
         $graduationResultCollection = $student->getGraduationResultCollection();
 
@@ -25,8 +25,8 @@ final class GraduationSubjectTypeHighCalculator extends AbstractMiddleware
             }
         }
 
-        $calculatorResult->addBonusScore($bonusScore);
+        $scoreAccumulator->addBonusScore($bonusScore);
 
-        return $calculatorResult;
+        return $scoreAccumulator;
     }
 }
