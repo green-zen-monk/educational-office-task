@@ -3,15 +3,15 @@
 declare(strict_types=1);
 
 use GreenZenMonk\SimplifiedScoreCalculator\Calculator\ValidatorResult;
-use GreenZenMonk\SimplifiedScoreCalculator\Student;
+use GreenZenMonk\SimplifiedScoreCalculator\StudentFactory;
 
 $schools = require __DIR__ . '/schools.php';
 
-$studentBuilder = Student::builder($schools);
+$studentFactory = new StudentFactory($schools);
 
 return [
     'output: hiba, nem lehetséges a pontszámítás a kötelező érettségi tárgyak hiánya miatt' => [
-        $studentBuilder->build([
+        $studentFactory->create([
             'valasztott-szak' => [
                 'egyetem' => 'ELTE',
                 'kar' => 'IK',
@@ -52,7 +52,7 @@ return [
     ],
     'output: hiba, nem lehetséges a pontszámítás 
     a magyar nyelv és irodalom tárgyból elért 20% alatti eredmény miatt' => [
-        $studentBuilder->build([
+        $studentFactory->create([
             'valasztott-szak' => [
                 'egyetem' => 'ELTE',
                 'kar' => 'IK',

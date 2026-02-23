@@ -3,16 +3,15 @@
 declare(strict_types=1);
 
 use GreenZenMonk\SimplifiedScoreCalculator\Calculator\CalculatorResult;
-use GreenZenMonk\SimplifiedScoreCalculator\Calculator\ValidatorResult;
-use GreenZenMonk\SimplifiedScoreCalculator\Student;
+use GreenZenMonk\SimplifiedScoreCalculator\StudentFactory;
 
 $schools = require __DIR__ . '/schools.php';
 
-$studentBuilder = Student::builder($schools);
+$studentFactory = new StudentFactory($schools);
 
 return [
     'output: 470 (370 alappont + 100 többletpont)' => [
-        $studentBuilder->build([
+        $studentFactory->create([
             'valasztott-szak' => [
                 'egyetem' => 'ELTE',
                 'kar' => 'IK',
@@ -61,7 +60,7 @@ return [
         new CalculatorResult(370, 100, 470)
     ],
     'output: 476 (376 alappont + 100 többletpont)' => [
-        $studentBuilder->build([
+        $studentFactory->create([
             'valasztott-szak' => [
                 'egyetem' => 'ELTE',
                 'kar' => 'IK',

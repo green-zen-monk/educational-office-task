@@ -37,9 +37,4 @@ final class Student
     {
         return $this->languageExamExtraPointCollection;
     }
-
-    public static function builder(SchoolCollection $schools): StudentBuilder
-    {
-        return new StudentBuilder($schools);
-    }
 }

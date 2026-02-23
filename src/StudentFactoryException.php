@@ -6,6 +6,6 @@ namespace GreenZenMonk\SimplifiedScoreCalculator;
 
 use Exception;
 
-final class StudentBuilderException extends Exception
+final class StudentFactoryException extends Exception
 {
 }

@@ -34,8 +34,8 @@ require __DIR__ . '/vendor/autoload.php';
 
 use GreenZenMonk\SimplifiedScoreCalculator\ScoreCalculator;
 use GreenZenMonk\SimplifiedScoreCalculator\ScoreCalculatorException;
-use GreenZenMonk\SimplifiedScoreCalculator\StudentBuilder;
-use GreenZenMonk\SimplifiedScoreCalculator\StudentBuilderException;
+use GreenZenMonk\SimplifiedScoreCalculator\StudentFactory;
+use GreenZenMonk\SimplifiedScoreCalculator\StudentFactoryException;
 use GreenZenMonk\SimplifiedScoreCalculator\School;
 use GreenZenMonk\SimplifiedScoreCalculator\SchoolCollection;
 use GreenZenMonk\SimplifiedScoreCalculator\SchoolCourse;
@@ -88,7 +88,7 @@ $input = [
     ],
 ];
 
-$builder = new StudentBuilder($schools);
+$factory = new StudentFactory($schools);
 
 $validator = new GraduationResultMinNotReachValidator();
 $validator->linkWith(new RequiredDefaultGraduationSubjectsValidator())
@@ -103,7 +103,7 @@ $middleware->linkWith(new BestRequiredSelectableGraduationSubjectCalculator())
 $calculator = new ScoreCalculator($validator, $middleware);
 
 try {
-    $student = $builder->build($input);
+    $student = $factory->create($input);
     $result = $calculator->calculate($student);
 
     print_r([
@@ -111,7 +111,7 @@ try {
         'bonusScore' => $result->getBonusScore(),
         'totalScore' => $result->getTotalScore(),
     ]);
-} catch (StudentBuilderException $e) {
+} catch (StudentFactoryException $e) {
     echo 'Input error: ' . $e->getMessage() . PHP_EOL;
 } catch (ScoreCalculatorException $e) {
     echo 'Applicant is not scoreable: ' . $e->getMessage() . PHP_EOL;
@@ -152,9 +152,9 @@ Required top-level keys:
 
 ## Exception Handling
 
-### `StudentBuilderException`
+### `StudentFactoryException`
 
-`StudentBuilder::build()` throws this when input structure is missing or invalid (for example missing keys or invalid nested structure).
+`StudentFactory::create()` throws this when input structure is missing or invalid (for example missing keys or invalid nested structure).
 
 ### `ScoreCalculatorException`
 
@@ -162,7 +162,7 @@ Required top-level keys:
 The exception message is the validator error message.
 
 Note: Invalid enum values (for example unknown subject or unsupported type) can raise native PHP `ValueError`.
-If the selected program does not exist in `SchoolCollection`, builder flow may later fail with `TypeError`.
+If the selected program does not exist in `SchoolCollection`, factory flow may later fail with `TypeError`.
 
 ## Architecture (validator + middleware pipeline)
 
@@ -170,10 +170,10 @@ If the selected program does not exist in `SchoolCollection`, builder flow may l
 raw input array
   |
   v
-StudentBuilder.php
+StudentFactory.php
   - selects School by (egyetem/kar/szak)
-  - builds GraduationResultCollection
-  - builds LanguageExamExtraPointCollection
+  - creates GraduationResultCollection
+  - creates LanguageExamExtraPointCollection
   |
   v
 Student

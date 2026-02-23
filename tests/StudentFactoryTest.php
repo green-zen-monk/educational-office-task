@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace Tests;
 
-use GreenZenMonk\SimplifiedScoreCalculator\StudentBuilder;
-use GreenZenMonk\SimplifiedScoreCalculator\StudentBuilderException;
+use GreenZenMonk\SimplifiedScoreCalculator\StudentFactory;
+use GreenZenMonk\SimplifiedScoreCalculator\StudentFactoryException;
 use PHPUnit\Framework\TestCase;
 
 /**
- * StudentBuilderTest
+ * StudentFactoryTest
  *
  * @phpstan-type StudentData array{
  *   'valasztott-szak': array{egyetem: string, kar: string, szak: string},
@@ -17,15 +17,15 @@ use PHPUnit\Framework\TestCase;
  *   'tobbletpontok': list<array{kategoria: string, tipus: string, nyelv: string}>
  * }
  */
-class StudentBuilderTest extends TestCase
+class StudentFactoryTest extends TestCase
 {
-    private StudentBuilder $studentBuilder;
+    private StudentFactory $studentFactory;
 
     protected function setUp(): void
     {
         $schools = require __DIR__ . '/fixtures/schools.php';
 
-        $this->studentBuilder = new StudentBuilder($schools);
+        $this->studentFactory = new StudentFactory($schools);
     }
 
     /**
@@ -50,7 +50,7 @@ class StudentBuilderTest extends TestCase
      */
     public function testSelectedSchools(array $dataSet): void
     {
-        $student = $this->studentBuilder->build($dataSet);
+        $student = $this->studentFactory->create($dataSet);
 
         $school = $student->getSelectedSchool();
 
@@ -77,7 +77,7 @@ class StudentBuilderTest extends TestCase
      */
     public function testGraduationResultCollection(array $dataSet): void
     {
-        $student = $this->studentBuilder->build($dataSet);
+        $student = $this->studentFactory->create($dataSet);
 
         $collection = $student->getGraduationResultCollection();
 
@@ -114,7 +114,7 @@ class StudentBuilderTest extends TestCase
      */
     public function testExtraPointCollection(array $dataSet): void
     {
-        $student = $this->studentBuilder->build($dataSet);
+        $student = $this->studentFactory->create($dataSet);
 
         $collection = $student->getLanguageExamCollection();
 
@@ -150,7 +150,7 @@ class StudentBuilderTest extends TestCase
      */
     public function testInvalidData(array $dataSet): void
     {
-        $this->expectException(StudentBuilderException::class);
-        $this->studentBuilder->build($dataSet);
+        $this->expectException(StudentFactoryException::class);
+        $this->studentFactory->create($dataSet);
     }
 }
