@@ -4,14 +4,14 @@ declare(strict_types=1);
 
 namespace GreenZenMonk\SimplifiedScoreCalculator;
 
-use GreenZenMonk\SimplifiedScoreCalculator\StudentFactoryException;
+use GreenZenMonk\SimplifiedScoreCalculator\Student\ExtraPoint\LanguageExamExtraPoint;
+use GreenZenMonk\SimplifiedScoreCalculator\Student\ExtraPointCategory;
 use GreenZenMonk\SimplifiedScoreCalculator\Student\ExtraPointParameter\LanguageExamSubject;
 use GreenZenMonk\SimplifiedScoreCalculator\Student\ExtraPointParameter\LanguageExamType;
-use GreenZenMonk\SimplifiedScoreCalculator\Student\ExtraPointCategory;
-use GreenZenMonk\SimplifiedScoreCalculator\Student\ExtraPoint\LanguageExamExtraPoint;
 use GreenZenMonk\SimplifiedScoreCalculator\Student\GraduationResult;
 use GreenZenMonk\SimplifiedScoreCalculator\Student\GraduationResultCollection;
 use GreenZenMonk\SimplifiedScoreCalculator\Student\LanguageExamExtraPointCollection;
+use GreenZenMonk\SimplifiedScoreCalculator\StudentFactoryException;
 
 class StudentFactory
 {

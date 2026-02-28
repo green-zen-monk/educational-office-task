@@ -72,7 +72,7 @@ return [
                     'eredmeny' => '70%',
                 ]
             ],
-            'tobbletpontok' => ""
+            'tobbletpontok' => ''
         ]
     ]
 ];

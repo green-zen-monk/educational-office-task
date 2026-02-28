@@ -13,7 +13,13 @@ composer-install:
 	docker compose exec app composer install
 
 test-run:
-	docker compose exec  app composer test
+	docker compose exec app composer test
+
+test-debug-run:
+	docker compose exec app composer test:debug
+
+test-coverage-run:
+	docker compose exec app composer test:coverage
 
 docker-shell:
 	docker compose exec app bash

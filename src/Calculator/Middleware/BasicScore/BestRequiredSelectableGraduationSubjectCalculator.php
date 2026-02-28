@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace GreenZenMonk\SimplifiedScoreCalculator\Calculator\Middleware\BasicScore;
 
-use GreenZenMonk\SimplifiedScoreCalculator\SchoolCourse\RequiredGraduationSubjectCollection;
 use GreenZenMonk\SimplifiedScoreCalculator\Calculator\Middleware\AbstractMiddleware;
 use GreenZenMonk\SimplifiedScoreCalculator\Calculator\ScoreAccumulator;
+use GreenZenMonk\SimplifiedScoreCalculator\SchoolCourse\RequiredGraduationSubjectCollection;
 use GreenZenMonk\SimplifiedScoreCalculator\Student;
 use GreenZenMonk\SimplifiedScoreCalculator\Student\GraduationResult;
 use GreenZenMonk\SimplifiedScoreCalculator\Student\GraduationResultCollection;

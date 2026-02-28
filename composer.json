@@ -15,7 +15,9 @@
         }
     ],
     "scripts": {
-        "test": "vendor/bin/phpunit",
+        "test": "phpunit -c phpunit.xml",
+        "test:debug": "phpunit -c phpunit.xml --debug",
+        "test:coverage": "phpunit -c phpunit.coverage.xml",
         "phpstan": "vendor/bin/phpstan analyse -c phpstan.neon",
         "cs-fix": "vendor/bin/php-cs-fixer fix --config=.php-cs-fixer.dist.php",
         "cs-check": "vendor/bin/php-cs-fixer fix --dry-run --diff --config=.php-cs-fixer.dist.php"

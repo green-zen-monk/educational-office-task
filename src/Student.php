@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace GreenZenMonk\SimplifiedScoreCalculator;
 
-use GreenZenMonk\SimplifiedScoreCalculator\Student\LanguageExamExtraPointCollection;
 use GreenZenMonk\SimplifiedScoreCalculator\Student\GraduationResultCollection;
+use GreenZenMonk\SimplifiedScoreCalculator\Student\LanguageExamExtraPointCollection;
 
 final class Student
 {

@@ -13,6 +13,11 @@ return (new PhpCsFixer\Config())
     ->setRiskyAllowed(false)
     ->setRules([
         '@PSR12' => true,
+        'declare_strict_types' => true,
+        'array_syntax' => ['syntax' => 'short'],
+        'ordered_imports' => true,
+        'single_quote' => true,
     ])
+    ->setRiskyAllowed(true)
     ->setFinder($finder);
 

@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace GreenZenMonk\SimplifiedScoreCalculator;
 
-use Iterator;
 use ArrayAccess;
 use Countable;
 use Exception;
+use Iterator;
 
 /**
  * @template TKey of array-key
