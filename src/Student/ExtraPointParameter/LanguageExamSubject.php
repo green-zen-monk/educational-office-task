@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace GreenZenMonk\SimplifiedScoreCalculator\Student\ExtraPointParameter;
+namespace GreenZenMonk\AdmissionScoreCalculator\Student\ExtraPointParameter;
 
 enum LanguageExamSubject: string
 {
-    case ENGLISH = 'angol';
-    case ITALIAN = 'olasz';
-    case GERMAN = 'német';
-    case FRENCH = 'francia';
-    case RUSSIAN = 'orosz';
-    case SPANISH = 'spanyol';
+    case English = 'angol';
+    case Italian = 'olasz';
+    case German = 'német';
+    case French = 'francia';
+    case Russian = 'orosz';
+    case Spanish = 'spanyol';
 }

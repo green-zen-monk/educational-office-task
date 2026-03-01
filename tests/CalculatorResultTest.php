@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Tests;
 
-use GreenZenMonk\SimplifiedScoreCalculator\Calculator\CalculatorResult;
-use GreenZenMonk\SimplifiedScoreCalculator\Calculator\ScoreAccumulator;
+use GreenZenMonk\AdmissionScoreCalculator\Calculator\CalculatorResult;
+use GreenZenMonk\AdmissionScoreCalculator\Calculator\ScoreAccumulator;
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 

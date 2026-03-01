@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace GreenZenMonk\SimplifiedScoreCalculator;
+namespace GreenZenMonk\AdmissionScoreCalculator;
 
 enum GraduationSubject: string
 {

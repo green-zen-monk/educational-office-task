@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace GreenZenMonk\SimplifiedScoreCalculator\Calculator\Middleware\BasicScore;
+namespace GreenZenMonk\AdmissionScoreCalculator\Calculator\Middleware\BasicScore;
 
-use GreenZenMonk\SimplifiedScoreCalculator\Calculator\Middleware\AbstractMiddleware;
-use GreenZenMonk\SimplifiedScoreCalculator\Calculator\ScoreAccumulator;
-use GreenZenMonk\SimplifiedScoreCalculator\Student;
+use GreenZenMonk\AdmissionScoreCalculator\Calculator\Middleware\AbstractMiddleware;
+use GreenZenMonk\AdmissionScoreCalculator\Calculator\ScoreAccumulator;
+use GreenZenMonk\AdmissionScoreCalculator\Student;
 
 final class RequiredGraduationSubjectCalculator extends AbstractMiddleware
 {

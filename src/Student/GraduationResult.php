@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace GreenZenMonk\SimplifiedScoreCalculator\Student;
+namespace GreenZenMonk\AdmissionScoreCalculator\Student;
 
-use GreenZenMonk\SimplifiedScoreCalculator\GraduationSubject;
-use GreenZenMonk\SimplifiedScoreCalculator\GraduationSubjectType;
+use GreenZenMonk\AdmissionScoreCalculator\GraduationSubject;
+use GreenZenMonk\AdmissionScoreCalculator\GraduationSubjectType;
 use InvalidArgumentException;
 
 final readonly class GraduationResult

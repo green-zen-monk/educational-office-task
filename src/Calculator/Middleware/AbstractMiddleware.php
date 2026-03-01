@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace GreenZenMonk\SimplifiedScoreCalculator\Calculator\Middleware;
+namespace GreenZenMonk\AdmissionScoreCalculator\Calculator\Middleware;
 
-use GreenZenMonk\SimplifiedScoreCalculator\Calculator\CalculatorResult;
-use GreenZenMonk\SimplifiedScoreCalculator\Calculator\ScoreAccumulator;
-use GreenZenMonk\SimplifiedScoreCalculator\Student;
+use GreenZenMonk\AdmissionScoreCalculator\Calculator\CalculatorResult;
+use GreenZenMonk\AdmissionScoreCalculator\Calculator\ScoreAccumulator;
+use GreenZenMonk\AdmissionScoreCalculator\Student;
 
 abstract class AbstractMiddleware
 {

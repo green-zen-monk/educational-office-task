@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace Tests;
 
-use GreenZenMonk\SimplifiedScoreCalculator\GraduationSubject;
-use GreenZenMonk\SimplifiedScoreCalculator\GraduationSubjectType;
-use GreenZenMonk\SimplifiedScoreCalculator\SchoolCourse\RequiredGraduationSubject;
-use GreenZenMonk\SimplifiedScoreCalculator\Student\GraduationResult;
+use GreenZenMonk\AdmissionScoreCalculator\GraduationSubject;
+use GreenZenMonk\AdmissionScoreCalculator\GraduationSubjectType;
+use GreenZenMonk\AdmissionScoreCalculator\SchoolCourse\RequiredGraduationSubject;
+use GreenZenMonk\AdmissionScoreCalculator\Student\GraduationResult;
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
 

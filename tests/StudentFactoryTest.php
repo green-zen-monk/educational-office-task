@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace Tests;
 
-use GreenZenMonk\SimplifiedScoreCalculator\StudentFactory;
-use GreenZenMonk\SimplifiedScoreCalculator\StudentFactoryException;
+use GreenZenMonk\AdmissionScoreCalculator\StudentFactory;
+use GreenZenMonk\AdmissionScoreCalculator\StudentFactoryException;
 use PHPUnit\Framework\Attributes\DataProvider;
 use PHPUnit\Framework\TestCase;
 

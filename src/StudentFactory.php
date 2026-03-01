@@ -2,16 +2,16 @@
 
 declare(strict_types=1);
 
-namespace GreenZenMonk\SimplifiedScoreCalculator;
+namespace GreenZenMonk\AdmissionScoreCalculator;
 
-use GreenZenMonk\SimplifiedScoreCalculator\Student\ExtraPoint\LanguageExamExtraPoint;
-use GreenZenMonk\SimplifiedScoreCalculator\Student\ExtraPointCategory;
-use GreenZenMonk\SimplifiedScoreCalculator\Student\ExtraPointParameter\LanguageExamSubject;
-use GreenZenMonk\SimplifiedScoreCalculator\Student\ExtraPointParameter\LanguageExamType;
-use GreenZenMonk\SimplifiedScoreCalculator\Student\GraduationResult;
-use GreenZenMonk\SimplifiedScoreCalculator\Student\GraduationResultCollection;
-use GreenZenMonk\SimplifiedScoreCalculator\Student\LanguageExamExtraPointCollection;
-use GreenZenMonk\SimplifiedScoreCalculator\StudentFactoryException;
+use GreenZenMonk\AdmissionScoreCalculator\Student\ExtraPoint\LanguageExamExtraPoint;
+use GreenZenMonk\AdmissionScoreCalculator\Student\ExtraPointCategory;
+use GreenZenMonk\AdmissionScoreCalculator\Student\ExtraPointParameter\LanguageExamSubject;
+use GreenZenMonk\AdmissionScoreCalculator\Student\ExtraPointParameter\LanguageExamType;
+use GreenZenMonk\AdmissionScoreCalculator\Student\GraduationResult;
+use GreenZenMonk\AdmissionScoreCalculator\Student\GraduationResultCollection;
+use GreenZenMonk\AdmissionScoreCalculator\Student\LanguageExamExtraPointCollection;
+use GreenZenMonk\AdmissionScoreCalculator\StudentFactoryException;
 
 class StudentFactory
 {

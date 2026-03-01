@@ -2,11 +2,11 @@
 
 declare(strict_types=1);
 
-namespace GreenZenMonk\SimplifiedScoreCalculator\Calculator\Validator;
+namespace GreenZenMonk\AdmissionScoreCalculator\Calculator\Validator;
 
-use GreenZenMonk\SimplifiedScoreCalculator\Calculator\Validator\AbstractValidator;
-use GreenZenMonk\SimplifiedScoreCalculator\Calculator\ValidatorResult;
-use GreenZenMonk\SimplifiedScoreCalculator\Student;
+use GreenZenMonk\AdmissionScoreCalculator\Calculator\Validator\AbstractValidator;
+use GreenZenMonk\AdmissionScoreCalculator\Calculator\ValidatorResult;
+use GreenZenMonk\AdmissionScoreCalculator\Student;
 
 final class RequiredSelectableGraduationSubjectsValidator extends AbstractValidator
 {

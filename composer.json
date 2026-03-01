@@ -1,11 +1,12 @@
 {
-    "name": "green-zen-monk/educational_office_task",
-    "description": "Educational Office – Home Assignment",
+    "name": "green-zen-monk/admission-score-calculator",
+    "description": "PHP library for calculating Hungarian higher-education admission scores with extensible rules and validation.",
+    "keywords": ["admission", "score", "calculator", "hungary", "education", "higher-education", "php"],
     "type": "library",
     "license": "MIT",
     "autoload": {
         "psr-4": {
-            "GreenZenMonk\\SimplifiedScoreCalculator\\": "src/"
+            "GreenZenMonk\\AdmissionScoreCalculator\\": "src/"
         }
     },
     "authors": [

@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace GreenZenMonk\SimplifiedScoreCalculator\SchoolCourse;
+namespace GreenZenMonk\AdmissionScoreCalculator\SchoolCourse;
 
-use GreenZenMonk\SimplifiedScoreCalculator\GraduationSubject;
-use GreenZenMonk\SimplifiedScoreCalculator\GraduationSubjectType;
+use GreenZenMonk\AdmissionScoreCalculator\GraduationSubject;
+use GreenZenMonk\AdmissionScoreCalculator\GraduationSubjectType;
 
 final readonly class RequiredGraduationSubject
 {

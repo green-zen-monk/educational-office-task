@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace GreenZenMonk\SimplifiedScoreCalculator;
+namespace GreenZenMonk\AdmissionScoreCalculator;
 
-use GreenZenMonk\SimplifiedScoreCalculator\Student\GraduationResultCollection;
-use GreenZenMonk\SimplifiedScoreCalculator\Student\LanguageExamExtraPointCollection;
+use GreenZenMonk\AdmissionScoreCalculator\Student\GraduationResultCollection;
+use GreenZenMonk\AdmissionScoreCalculator\Student\LanguageExamExtraPointCollection;
 
 final class Student
 {

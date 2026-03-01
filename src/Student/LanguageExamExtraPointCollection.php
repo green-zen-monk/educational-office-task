@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace GreenZenMonk\SimplifiedScoreCalculator\Student;
+namespace GreenZenMonk\AdmissionScoreCalculator\Student;
 
-use GreenZenMonk\SimplifiedScoreCalculator\AbstractCollection;
-use GreenZenMonk\SimplifiedScoreCalculator\Student\ExtraPoint\LanguageExamExtraPoint;
+use GreenZenMonk\AdmissionScoreCalculator\AbstractCollection;
+use GreenZenMonk\AdmissionScoreCalculator\Student\ExtraPoint\LanguageExamExtraPoint;
 
 /**
  * @extends AbstractCollection<int, LanguageExamExtraPoint>

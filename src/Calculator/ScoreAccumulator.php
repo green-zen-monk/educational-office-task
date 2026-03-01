@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace GreenZenMonk\SimplifiedScoreCalculator\Calculator;
+namespace GreenZenMonk\AdmissionScoreCalculator\Calculator;
 
 use InvalidArgumentException;
 

@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace GreenZenMonk\SimplifiedScoreCalculator\Student;
+namespace GreenZenMonk\AdmissionScoreCalculator\Student;
 
-use GreenZenMonk\SimplifiedScoreCalculator\Student\ExtraPointCategory;
+use GreenZenMonk\AdmissionScoreCalculator\Student\ExtraPointCategory;
 
 interface ExtraPointInterface
 {

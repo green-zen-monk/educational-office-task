@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace GreenZenMonk\SimplifiedScoreCalculator;
+namespace GreenZenMonk\AdmissionScoreCalculator;
 
-use GreenZenMonk\SimplifiedScoreCalculator\Calculator\CalculatorResult;
-use GreenZenMonk\SimplifiedScoreCalculator\Calculator\Middleware\AbstractMiddleware;
-use GreenZenMonk\SimplifiedScoreCalculator\Calculator\Validator\AbstractValidator;
-use GreenZenMonk\SimplifiedScoreCalculator\Calculator\ValidatorResult;
+use GreenZenMonk\AdmissionScoreCalculator\Calculator\CalculatorResult;
+use GreenZenMonk\AdmissionScoreCalculator\Calculator\Middleware\AbstractMiddleware;
+use GreenZenMonk\AdmissionScoreCalculator\Calculator\Validator\AbstractValidator;
+use GreenZenMonk\AdmissionScoreCalculator\Calculator\ValidatorResult;
 
 final class ScoreCalculator
 {

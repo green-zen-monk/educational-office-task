@@ -2,14 +2,14 @@
 
 declare(strict_types=1);
 
-namespace GreenZenMonk\SimplifiedScoreCalculator\Student;
+namespace GreenZenMonk\AdmissionScoreCalculator\Student;
 
 enum ExtraPointCategory: string
 {
-    case LANGUAGE_EXAM = 'Nyelvvizsga';
+    case LanguageExam = 'Nyelvvizsga';
 
     public function isLanguageExam(): bool
     {
-        return $this === self::LANGUAGE_EXAM;
+        return $this === self::LanguageExam;
     }
 }

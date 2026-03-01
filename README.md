@@ -1,10 +1,14 @@
-# Educational Office Task
+# Admission Score Calculator (Educational Office Task)
 
 [![CI](https://img.shields.io/github/actions/workflow/status/green-zen-monk/educational-office-task/ci.yml?label=CI)](https://github.com/green-zen-monk/educational-office-task/actions/workflows/ci.yml)
 [![PHPStan level: 8](https://img.shields.io/badge/PHPStan-level%208-31C652.svg?logo=php&logoColor=white)](https://phpstan.org/)
 [![PHP-CS-Fixer: PSR-12](https://img.shields.io/badge/PHP--CS--Fixer-PSR--12-F7B93E.svg?logo=php&logoColor=white)](https://cs.symfony.com/)
 
 A simplified higher-education admission score calculator PHP library.
+
+## Requirements
+
+- PHP `^8.2`
 
 ## What Is This Library For?
 
@@ -21,7 +25,7 @@ This package calculates an applicant's admission score from input data
 As a dependency:
 
 ```bash
-composer require green-zen-monk/educational_office_task
+composer require green-zen-monk/admission-score-calculator
 ```
 
 In this repository (for development):
@@ -37,24 +41,24 @@ composer install
 
 require __DIR__ . '/vendor/autoload.php';
 
-use GreenZenMonk\SimplifiedScoreCalculator\ScoreCalculator;
-use GreenZenMonk\SimplifiedScoreCalculator\ScoreCalculatorException;
-use GreenZenMonk\SimplifiedScoreCalculator\StudentFactory;
-use GreenZenMonk\SimplifiedScoreCalculator\StudentFactoryException;
-use GreenZenMonk\SimplifiedScoreCalculator\School;
-use GreenZenMonk\SimplifiedScoreCalculator\SchoolCollection;
-use GreenZenMonk\SimplifiedScoreCalculator\SchoolCourse;
-use GreenZenMonk\SimplifiedScoreCalculator\GraduationSubject;
-use GreenZenMonk\SimplifiedScoreCalculator\SchoolCourse\RequiredGraduationSubject;
-use GreenZenMonk\SimplifiedScoreCalculator\SchoolCourse\RequiredGraduationSubjectCollection;
-use GreenZenMonk\SimplifiedScoreCalculator\Calculator\Middleware\BasicScore\RequiredGraduationSubjectCalculator;
-use GreenZenMonk\SimplifiedScoreCalculator\Calculator\Middleware\BasicScore\BestRequiredSelectableGraduationSubjectCalculator;
-use GreenZenMonk\SimplifiedScoreCalculator\Calculator\Middleware\BonusScore\GraduationSubjectTypeHighCalculator;
-use GreenZenMonk\SimplifiedScoreCalculator\Calculator\Middleware\BonusScore\LanguageExamTypeCalculator;
-use GreenZenMonk\SimplifiedScoreCalculator\Calculator\Validator\GraduationResultMinNotReachValidator;
-use GreenZenMonk\SimplifiedScoreCalculator\Calculator\Validator\RequiredDefaultGraduationSubjectsValidator;
-use GreenZenMonk\SimplifiedScoreCalculator\Calculator\Validator\RequiredGraduationSubjectValidator;
-use GreenZenMonk\SimplifiedScoreCalculator\Calculator\Validator\RequiredSelectableGraduationSubjectsValidator;
+use GreenZenMonk\AdmissionScoreCalculator\ScoreCalculator;
+use GreenZenMonk\AdmissionScoreCalculator\ScoreCalculatorException;
+use GreenZenMonk\AdmissionScoreCalculator\StudentFactory;
+use GreenZenMonk\AdmissionScoreCalculator\StudentFactoryException;
+use GreenZenMonk\AdmissionScoreCalculator\School;
+use GreenZenMonk\AdmissionScoreCalculator\SchoolCollection;
+use GreenZenMonk\AdmissionScoreCalculator\SchoolCourse;
+use GreenZenMonk\AdmissionScoreCalculator\GraduationSubject;
+use GreenZenMonk\AdmissionScoreCalculator\SchoolCourse\RequiredGraduationSubject;
+use GreenZenMonk\AdmissionScoreCalculator\SchoolCourse\RequiredGraduationSubjectCollection;
+use GreenZenMonk\AdmissionScoreCalculator\Calculator\Middleware\BasicScore\RequiredGraduationSubjectCalculator;
+use GreenZenMonk\AdmissionScoreCalculator\Calculator\Middleware\BasicScore\BestRequiredSelectableGraduationSubjectCalculator;
+use GreenZenMonk\AdmissionScoreCalculator\Calculator\Middleware\BonusScore\GraduationSubjectTypeHighCalculator;
+use GreenZenMonk\AdmissionScoreCalculator\Calculator\Middleware\BonusScore\LanguageExamTypeCalculator;
+use GreenZenMonk\AdmissionScoreCalculator\Calculator\Validator\GraduationResultMinNotReachValidator;
+use GreenZenMonk\AdmissionScoreCalculator\Calculator\Validator\RequiredDefaultGraduationSubjectsValidator;
+use GreenZenMonk\AdmissionScoreCalculator\Calculator\Validator\RequiredGraduationSubjectValidator;
+use GreenZenMonk\AdmissionScoreCalculator\Calculator\Validator\RequiredSelectableGraduationSubjectsValidator;
 
 // School catalog definition.
 $schools = new SchoolCollection([
@@ -211,6 +215,32 @@ make docker-up
 make composer-install
 make test-run
 make docker-down
+```
+
+Useful additional targets:
+
+```bash
+make test-debug-run
+make test-coverage-run
+make docker-shell
+```
+
+## Testing
+
+Composer scripts:
+
+```bash
+composer test
+composer test:debug
+composer test:coverage
+```
+
+Makefile equivalents (Docker-based):
+
+```bash
+make test-run
+make test-debug-run
+make test-coverage-run
 ```
 
 ## Code Quality

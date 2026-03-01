@@ -2,13 +2,13 @@
 
 declare(strict_types=1);
 
-use GreenZenMonk\SimplifiedScoreCalculator\GraduationSubject;
-use GreenZenMonk\SimplifiedScoreCalculator\GraduationSubjectType;
-use GreenZenMonk\SimplifiedScoreCalculator\School;
-use GreenZenMonk\SimplifiedScoreCalculator\SchoolCollection;
-use GreenZenMonk\SimplifiedScoreCalculator\SchoolCourse;
-use GreenZenMonk\SimplifiedScoreCalculator\SchoolCourse\RequiredGraduationSubject;
-use GreenZenMonk\SimplifiedScoreCalculator\SchoolCourse\RequiredGraduationSubjectCollection;
+use GreenZenMonk\AdmissionScoreCalculator\GraduationSubject;
+use GreenZenMonk\AdmissionScoreCalculator\GraduationSubjectType;
+use GreenZenMonk\AdmissionScoreCalculator\School;
+use GreenZenMonk\AdmissionScoreCalculator\SchoolCollection;
+use GreenZenMonk\AdmissionScoreCalculator\SchoolCourse;
+use GreenZenMonk\AdmissionScoreCalculator\SchoolCourse\RequiredGraduationSubject;
+use GreenZenMonk\AdmissionScoreCalculator\SchoolCourse\RequiredGraduationSubjectCollection;
 
 return new SchoolCollection([
     new School(

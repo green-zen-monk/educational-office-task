@@ -2,8 +2,8 @@
 
 declare(strict_types=1);
 
-use GreenZenMonk\SimplifiedScoreCalculator\Calculator\ValidatorResult;
-use GreenZenMonk\SimplifiedScoreCalculator\StudentFactory;
+use GreenZenMonk\AdmissionScoreCalculator\Calculator\ValidatorResult;
+use GreenZenMonk\AdmissionScoreCalculator\StudentFactory;
 
 $schools = require __DIR__ . '/schools.php';
 

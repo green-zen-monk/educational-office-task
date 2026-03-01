@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace GreenZenMonk\SimplifiedScoreCalculator;
+namespace GreenZenMonk\AdmissionScoreCalculator;
 
-use GreenZenMonk\SimplifiedScoreCalculator\AbstractCollection;
+use GreenZenMonk\AdmissionScoreCalculator\AbstractCollection;
 
 /**
  * @extends AbstractCollection<int, School>

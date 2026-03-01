@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace GreenZenMonk\SimplifiedScoreCalculator\Student\ExtraPointParameter;
+namespace GreenZenMonk\AdmissionScoreCalculator\Student\ExtraPointParameter;
 
 enum LanguageExamType: string
 {

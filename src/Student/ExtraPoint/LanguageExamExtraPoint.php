@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace GreenZenMonk\SimplifiedScoreCalculator\Student\ExtraPoint;
+namespace GreenZenMonk\AdmissionScoreCalculator\Student\ExtraPoint;
 
-use GreenZenMonk\SimplifiedScoreCalculator\Student\ExtraPointCategory;
-use GreenZenMonk\SimplifiedScoreCalculator\Student\ExtraPointInterface;
-use GreenZenMonk\SimplifiedScoreCalculator\Student\ExtraPointParameter\LanguageExamSubject;
-use GreenZenMonk\SimplifiedScoreCalculator\Student\ExtraPointParameter\LanguageExamType;
+use GreenZenMonk\AdmissionScoreCalculator\Student\ExtraPointCategory;
+use GreenZenMonk\AdmissionScoreCalculator\Student\ExtraPointInterface;
+use GreenZenMonk\AdmissionScoreCalculator\Student\ExtraPointParameter\LanguageExamSubject;
+use GreenZenMonk\AdmissionScoreCalculator\Student\ExtraPointParameter\LanguageExamType;
 
 final readonly class LanguageExamExtraPoint implements ExtraPointInterface
 {
