@@ -4,23 +4,51 @@
 [![PHPStan level: 8](https://img.shields.io/badge/PHPStan-level%208-31C652.svg?logo=php&logoColor=white)](https://phpstan.org/)
 [![PHP-CS-Fixer: PSR-12](https://img.shields.io/badge/PHP--CS--Fixer-PSR--12-F7B93E.svg?logo=php&logoColor=white)](https://cs.symfony.com/)
 
-A simplified higher-education admission score calculator PHP library.
+PHP library for calculating Hungarian higher-education admission scores from structured input data.
 
 ## Requirements
 
 - PHP `^8.2`
 
-## What Is This Library For?
+## What The Library Does
 
-This package calculates an applicant's admission score from input data
-(selected program, graduation exam results, extra points).
+- Builds a `Student` domain object from raw input (`CreateStudentFromInput` use case).
+- Builds a `School` domain object from raw catalog input (`CreateSchoolFromInput` use case).
+- Checks eligibility with rule chain (`EligibilityRule`).
+- Calculates scores with pluggable scoring policies (`ScoreEngine`).
+- Returns `AdmissionScore` with `basic + bonus = total`.
+- Caps bonus score at `100`.
+- Stops eligibility evaluation at the first failing rule.
 
-- Validates required and required-selectable subjects.
-- Validates the minimum score threshold of 20%.
-- Calculates base score and bonus score.
-- Caps bonus score at 100 points.
+Current default business rules in the provided setup:
 
-## Quick Install
+- Mandatory subjects must include:
+  - `magyar nyelv és irodalom`
+  - `történelem`
+  - `matematika`
+- Every graduation result must be at least `20%`.
+- Course required subject must be present (and optionally required at `emelt` level).
+- At least one required-selectable subject must be present.
+- If a graduation subject appears multiple times, the highest matching result is used.
+- High-level (`emelt`) graduation results add `50` bonus points each.
+- Language exams add bonus (`B2 = 28`, `C1 = 40`) per language, keeping only the best per language.
+
+## Breaking Changes (Legacy API)
+
+Compared to the previous root orchestration API:
+
+- Root-level orchestration moved into `Application\UseCase\*` classes.
+- Core models and business rules moved into `Domain\*`.
+- Repository implementations moved into `Infrastructure\*`.
+- `ScoreCalculator` was replaced by `Application\UseCase\CalculateAdmissionScore`.
+- `StudentFactory` was replaced by `Application\UseCase\CreateStudentFromInput`.
+- `SchoolCollection` orchestration was replaced by `Domain\Repository\SchoolRepository` with `Infrastructure\Repository\InMemorySchoolRepository`.
+- `ScoreCalculatorException` was replaced by `Application\Exception\CalculateAdmissionScoreException`.
+- `StudentFactoryException` was replaced by `Application\Exception\CreateStudentFromInputException`.
+- Validator middleware classes were replaced by `EligibilityRule` classes.
+- Calculator middleware classes were replaced by `ScoreEngine` + `ScoringPolicy` classes.
+
+## Install
 
 As a dependency:
 
@@ -28,51 +56,65 @@ As a dependency:
 composer require green-zen-monk/admission-score-calculator
 ```
 
-In this repository (for development):
+In this repository (development):
 
 ```bash
 composer install
 ```
 
-## Full Usage Example
+## Public API Overview
+
+- `Application\UseCase\CreateStudentFromInput`: maps raw applicant input to `Domain\Model\Student`.
+- `Application\UseCase\CreateSchoolFromInput`: maps raw school catalog input to `Domain\Model\School`.
+- `Application\UseCase\CalculateAdmissionScore`: checks eligibility and returns `Domain\Model\Scoring\AdmissionScore`.
+- `Application\Input\InputFormat`: selects `array`, `json`, or custom `object` mappers.
+- `Infrastructure\Repository\InMemorySchoolRepository`: simple in-memory `SchoolRepository` example for setup and tests; production code can use any adapter, including one backed by an ORM/entity repository.
+- `Domain\Eligibility\Contract\EligibilityRule`: chainable eligibility rule contract.
+- `Domain\Scoring\ScoreEngine`: runs scoring policies for base and bonus scores.
+- `Domain\Model\Scoring\AdmissionScore`: immutable calculation result object.
+
+## Usage Example
 
 ```php
 <?php
 
+declare(strict_types=1);
+
 require __DIR__ . '/vendor/autoload.php';
 
-use GreenZenMonk\AdmissionScoreCalculator\ScoreCalculator;
-use GreenZenMonk\AdmissionScoreCalculator\ScoreCalculatorException;
-use GreenZenMonk\AdmissionScoreCalculator\StudentFactory;
-use GreenZenMonk\AdmissionScoreCalculator\StudentFactoryException;
-use GreenZenMonk\AdmissionScoreCalculator\School;
-use GreenZenMonk\AdmissionScoreCalculator\SchoolCollection;
-use GreenZenMonk\AdmissionScoreCalculator\SchoolCourse;
-use GreenZenMonk\AdmissionScoreCalculator\GraduationSubject;
-use GreenZenMonk\AdmissionScoreCalculator\SchoolCourse\RequiredGraduationSubject;
-use GreenZenMonk\AdmissionScoreCalculator\SchoolCourse\RequiredGraduationSubjectCollection;
-use GreenZenMonk\AdmissionScoreCalculator\Calculator\Middleware\BasicScore\RequiredGraduationSubjectCalculator;
-use GreenZenMonk\AdmissionScoreCalculator\Calculator\Middleware\BasicScore\BestRequiredSelectableGraduationSubjectCalculator;
-use GreenZenMonk\AdmissionScoreCalculator\Calculator\Middleware\BonusScore\GraduationSubjectTypeHighCalculator;
-use GreenZenMonk\AdmissionScoreCalculator\Calculator\Middleware\BonusScore\LanguageExamTypeCalculator;
-use GreenZenMonk\AdmissionScoreCalculator\Calculator\Validator\GraduationResultMinNotReachValidator;
-use GreenZenMonk\AdmissionScoreCalculator\Calculator\Validator\RequiredDefaultGraduationSubjectsValidator;
-use GreenZenMonk\AdmissionScoreCalculator\Calculator\Validator\RequiredGraduationSubjectValidator;
-use GreenZenMonk\AdmissionScoreCalculator\Calculator\Validator\RequiredSelectableGraduationSubjectsValidator;
+use GreenZenMonk\AdmissionScoreCalculator\Domain\Eligibility\Rule\GraduationResultMinNotReachRule;
+use GreenZenMonk\AdmissionScoreCalculator\Domain\Eligibility\Rule\RequiredDefaultGraduationSubjectsRule;
+use GreenZenMonk\AdmissionScoreCalculator\Domain\Eligibility\Rule\RequiredGraduationSubjectRule;
+use GreenZenMonk\AdmissionScoreCalculator\Domain\Eligibility\Rule\RequiredSelectableGraduationSubjectsRule;
+use GreenZenMonk\AdmissionScoreCalculator\Domain\Model\Graduation\GraduationSubject;
+use GreenZenMonk\AdmissionScoreCalculator\Domain\Model\School;
+use GreenZenMonk\AdmissionScoreCalculator\Domain\Model\School\Course;
+use GreenZenMonk\AdmissionScoreCalculator\Domain\Model\School\Course\RequiredGraduationSubject;
+use GreenZenMonk\AdmissionScoreCalculator\Domain\Model\School\Course\RequiredGraduationSubjectCollection;
+use GreenZenMonk\AdmissionScoreCalculator\Infrastructure\Repository\InMemorySchoolRepository;
+use GreenZenMonk\AdmissionScoreCalculator\Domain\Scoring\Policy\BasicScore\BestRequiredSelectableGraduationSubjectPolicy;
+use GreenZenMonk\AdmissionScoreCalculator\Domain\Scoring\Policy\BasicScore\RequiredGraduationSubjectPolicy;
+use GreenZenMonk\AdmissionScoreCalculator\Domain\Scoring\Policy\BonusScore\GraduationSubjectTypeHighPolicy;
+use GreenZenMonk\AdmissionScoreCalculator\Domain\Scoring\Policy\BonusScore\LanguageExamTypePolicy;
+use GreenZenMonk\AdmissionScoreCalculator\Domain\Scoring\ScoreEngine;
+use GreenZenMonk\AdmissionScoreCalculator\Application\Exception\CalculateAdmissionScoreException;
+use GreenZenMonk\AdmissionScoreCalculator\Application\Exception\CreateStudentFromInputException;
+use GreenZenMonk\AdmissionScoreCalculator\Application\Input\InputFormat;
+use GreenZenMonk\AdmissionScoreCalculator\Application\UseCase\CalculateAdmissionScore;
+use GreenZenMonk\AdmissionScoreCalculator\Application\UseCase\CreateStudentFromInput;
 
-// School catalog definition.
-$schools = new SchoolCollection([
+$schools = new InMemorySchoolRepository([
     new School(
         'ELTE',
         'IK',
-        new SchoolCourse(
+        new Course(
             'Programtervező informatikus',
-            new RequiredGraduationSubject(GraduationSubject::MATHEMATICS),
+            new RequiredGraduationSubject(GraduationSubject::Mathematics),
             new RequiredGraduationSubjectCollection([
-                new RequiredGraduationSubject(GraduationSubject::BIOLOGY),
-                new RequiredGraduationSubject(GraduationSubject::PHYSICS),
-                new RequiredGraduationSubject(GraduationSubject::IT),
-                new RequiredGraduationSubject(GraduationSubject::CHEMISTRY),
+                new RequiredGraduationSubject(GraduationSubject::Biology),
+                new RequiredGraduationSubject(GraduationSubject::Physics),
+                new RequiredGraduationSubject(GraduationSubject::InformationTechnology),
+                new RequiredGraduationSubject(GraduationSubject::Chemistry),
             ])
         )
     ),
@@ -97,127 +139,224 @@ $input = [
     ],
 ];
 
-$factory = new StudentFactory($schools);
+$createStudent = new CreateStudentFromInput($schools);
 
-$validator = new GraduationResultMinNotReachValidator();
-$validator->linkWith(new RequiredDefaultGraduationSubjectsValidator())
-    ->linkWith(new RequiredGraduationSubjectValidator())
-    ->linkWith(new RequiredSelectableGraduationSubjectsValidator());
+$eligibilityRule = new GraduationResultMinNotReachRule();
+$eligibilityRule
+    ->setNext(new RequiredDefaultGraduationSubjectsRule())
+    ->setNext(new RequiredGraduationSubjectRule())
+    ->setNext(new RequiredSelectableGraduationSubjectsRule());
 
-$middleware = new RequiredGraduationSubjectCalculator();
-$middleware->linkWith(new BestRequiredSelectableGraduationSubjectCalculator())
-    ->linkWith(new GraduationSubjectTypeHighCalculator())
-    ->linkWith(new LanguageExamTypeCalculator());
+$scoreEngine = new ScoreEngine([
+    new RequiredGraduationSubjectPolicy(),
+    new BestRequiredSelectableGraduationSubjectPolicy(),
+    new GraduationSubjectTypeHighPolicy(),
+    new LanguageExamTypePolicy(),
+]);
 
-$calculator = new ScoreCalculator($validator, $middleware);
+$calculateScore = new CalculateAdmissionScore($eligibilityRule, $scoreEngine);
 
 try {
-    $student = $factory->create($input);
-    $result = $calculator->calculate($student);
+    $student = $createStudent->execute($input, InputFormat::ArrayInput);
+    $result = $calculateScore->execute($student);
 
     print_r([
         'basicScore' => $result->getBasicScore(),
         'bonusScore' => $result->getBonusScore(),
         'totalScore' => $result->getTotalScore(),
     ]);
-} catch (StudentFactoryException $e) {
+} catch (CreateStudentFromInputException $e) {
     echo 'Input error: ' . $e->getMessage() . PHP_EOL;
-} catch (ScoreCalculatorException $e) {
+} catch (CalculateAdmissionScoreException $e) {
     echo 'Applicant is not scoreable: ' . $e->getMessage() . PHP_EOL;
 }
 ```
 
-## Input/Output Format
+## Student Input Format
 
-### Input (`array`)
+`CreateStudentFromInput::execute(mixed $rawInput, InputFormat $format = InputFormat::ArrayInput)`
+supports:
+
+- `InputFormat::ArrayInput`: associative array input (default)
+- `InputFormat::Json`: JSON string input
+- `InputFormat::Object`: requires a custom injected mapper implementation
 
 Required top-level keys:
 
 - `valasztott-szak.egyetem` (`string`)
 - `valasztott-szak.kar` (`string`)
 - `valasztott-szak.szak` (`string`)
-- `erettsegi-eredmenyek` (`array`)
-- `tobbletpontok` (`array`)
+- `erettsegi-eredmenyek` (`list<array>`)
+- `tobbletpontok` (`list<array>`)
 
-`erettsegi-eredmenyek[]` items:
+`erettsegi-eredmenyek[]` fields:
 
-- `nev`: subject name (for example `matematika`, `angol nyelv`, `informatika`)
+- `nev` (for example: `matematika`, `angol nyelv`, `informatika`)
 - `tipus`: `közép` or `emelt`
-- `eredmeny`: percentage value (for example `85%`, `85`)
+- `eredmeny`: `0-100` with optional `%` suffix (`85` or `85%`)
+- Duplicate subject entries are allowed; scoring uses the highest applicable result.
 
-`tobbletpontok[]` items:
+`tobbletpontok[]` fields:
 
 - `kategoria`: currently `Nyelvvizsga`
 - `tipus`: `B2` or `C1`
-- `nyelv`: for example `angol`, `német`, `francia`
+- `nyelv`: `angol`, `német`, `francia`, `olasz`, `orosz`, `spanyol`
 
-### Output (successful calculation)
+Student input intentionally follows the original homework payload shape and Hungarian field names.
+School input uses domain-oriented English keys and enum-like values.
 
-`ScoreCalculator::calculate()` returns a `CalculatorResult` object:
+## School Input Format
+
+`CreateSchoolFromInput::execute(mixed $rawInput, InputFormat $format = InputFormat::ArrayInput)`
+supports:
+
+- `InputFormat::ArrayInput`: associative array input (default)
+- `InputFormat::Json`: JSON string input
+- `InputFormat::Object`: requires a custom injected mapper implementation
+
+Required top-level keys:
+
+- `university` (`string`)
+- `faculty` (`string`)
+- `course.name` (`string`)
+- `course.required_graduation_subject` (`array`)
+- `course.required_selectable_graduation_subjects` (`list<array>`)
+
+`course.required_graduation_subject` fields:
+
+- `subject`: domain graduation subject value (for example `mathematics`)
+- `type`: `medium` or `high`
+
+`course.required_selectable_graduation_subjects[]` fields:
+
+- `subject`: domain graduation subject value (for example `physics`, `biology`)
+- `type`: `medium` or `high`
+
+Example payload:
+
+```php
+[
+    'university' => 'ELTE',
+    'faculty' => 'IK',
+    'course' => [
+        'name' => 'Programtervezo informatikus',
+        'required_graduation_subject' => [
+            'subject' => 'mathematics',
+            'type' => 'medium',
+        ],
+        'required_selectable_graduation_subjects' => [
+            ['subject' => 'physics', 'type' => 'high'],
+            ['subject' => 'biology', 'type' => 'medium'],
+        ],
+    ],
+]
+```
+
+## Extension Points
+
+- `Domain\Repository\SchoolRepository`: plug in any repository adapter that can return a `School`, including implementations backed by ORM/entity repositories or external services.
+- `Application\Input\Mapping\Student\Contract\StudentInputMapperInterface`: add support for custom applicant input formats.
+- `Application\Input\Mapping\School\Contract\SchoolInputMapperInterface`: add support for custom school catalog input formats.
+- `Application\Contract\ViolationMessageResolver`: customize eligibility error messages returned by `CalculateAdmissionScore`.
+
+## Output
+
+`CalculateAdmissionScore::execute()` returns `AdmissionScore`:
 
 - `getBasicScore(): int`
-- `getBonusScore(): int` (max. 100)
+- `getBonusScore(): int` (`0..100`)
 - `getTotalScore(): int`
 
-## Exception Handling
+`CalculateAdmissionScore::check()` returns `EligibilityResult` without calculating score.
 
-### `StudentFactoryException`
+`EligibilityResult`:
 
-`StudentFactory::create()` throws this when input structure is missing or invalid
-(for example missing keys or invalid nested structure).
+- `isEligible(): bool`
+- `violations(): list<Violation>`
 
-### `ScoreCalculatorException`
+Possible `ViolationCode` values:
 
-`ScoreCalculator::calculate()` throws this when the applicant fails validation.
-The exception message is the validator error message.
+- `required_graduation_subject_missing`
+- `mandatory_subjects_missing`
+- `selectable_subject_missing`
+- `subject_below_minimum`
 
-Note: Invalid enum values (for example unknown subject or unsupported type)
-can raise native PHP `ValueError`.
-If the selected program does not exist in `SchoolCollection`, factory flow may
-later fail with `TypeError`.
+## Exceptions
 
-## Architecture (validator + middleware pipeline)
+### `CreateStudentFromInputException`
+
+Thrown when input data is missing or invalid (missing key, wrong structure, invalid subject/type/result format, unknown selected school, unsupported extra point category).
+
+### `CreateSchoolFromInputException`
+
+Thrown when school catalog input is missing or invalid (missing key, wrong structure, invalid graduation subject value, invalid graduation subject type, unsupported mapper format).
+
+### `CalculateAdmissionScoreException`
+
+Thrown by `CalculateAdmissionScore::execute()` when eligibility fails.  
+Default exception message is the first violation code value (for example `required_graduation_subject_missing`).
+You can override this by passing a custom `ViolationMessageResolver` implementation to `CalculateAdmissionScore`.
+
+## Architecture (Current)
 
 ```text
-raw input array
+optional school-catalog input (array/json/object)
   |
   v
-StudentFactory.php
-  - selects School by (egyetem/kar/szak)
+CreateSchoolFromInput
+  - resolves mapper by InputFormat
+  - creates Course
+  - creates RequiredGraduationSubjectCollection
+  |
+  v
+School
+  |
+  v
+usable by any SchoolRepository implementation
+
+raw input (array/json/object)
+  |
+  v
+CreateStudentFromInput
+  - resolves mapper by InputFormat
+  - looks up selected program via SchoolRepository
+  - accepts any repository implementation that returns a School
+  - repository may wrap ORM/entity repositories or other external data sources
+  - repository may return preloaded or externally constructed School data
   - creates GraduationResultCollection
-  - creates LanguageExamExtraPointCollection
+  - creates ExtraPointCollection
   |
   v
 Student
   |
   v
-ScoreCalculator.php
+CalculateAdmissionScore
   |
-  +--> Validator chain (Chain of Responsibility)
-  |      1) GraduationResultMinNotReachValidator
-  |      2) RequiredDefaultGraduationSubjectsValidator
-  |      3) RequiredGraduationSubjectValidator
-  |      4) RequiredSelectableGraduationSubjectsValidator
-  |         -> if any step fails: ScoreCalculatorException
+  +--> Eligibility chain (Chain of Responsibility)
+  |      1) GraduationResultMinNotReachRule
+  |      2) RequiredDefaultGraduationSubjectsRule
+  |      3) RequiredGraduationSubjectRule
+  |      4) RequiredSelectableGraduationSubjectsRule
   |
-  +--> Middleware chain (accumulative calculation pipeline)
-         1) RequiredGraduationSubjectCalculator
-         2) BestRequiredSelectableGraduationSubjectCalculator
-         3) GraduationSubjectTypeHighCalculator
-         4) LanguageExamTypeCalculator
-            -> CalculatorResult (basic, bonus, total)
+  +--> ScoreEngine policies
+         1) RequiredGraduationSubjectPolicy
+         2) BestRequiredSelectableGraduationSubjectPolicy
+         3) GraduationSubjectTypeHighPolicy
+         4) LanguageExamTypePolicy
+            -> AdmissionScore (basic, bonus, total)
 ```
 
-## Developer Run With Docker
+## Development (Docker)
 
 ```bash
+make docker-build
 make docker-up
 make composer-install
 make test-run
 make docker-down
 ```
 
-Useful additional targets:
+Additional targets:
 
 ```bash
 make test-debug-run
@@ -235,7 +374,13 @@ composer test:debug
 composer test:coverage
 ```
 
-Makefile equivalents (Docker-based):
+PHPUnit configuration:
+
+- `tests/Unit` is registered as the `Unit` suite.
+- `tests/Integration` is registered as the `Integration` suite.
+- `composer.json` exposes `Tests\\` through `autoload-dev` for the current test namespace layout.
+
+Docker Makefile equivalents:
 
 ```bash
 make test-run
@@ -243,10 +388,16 @@ make test-debug-run
 make test-coverage-run
 ```
 
+Coverage report output (`phpunit.coverage.xml`):
+
+- `build/coverage/html`
+- `build/coverage/clover.xml`
+- `build/coverage/cobertura.xml`
+- `build/coverage/xml`
+
 ## Code Quality
 
-PHPStan (`level 8`) and PHP-CS-Fixer (`PSR-12`) are configured in this
-repository.
+PHPStan (`level 8`) and PHP-CS-Fixer (`PSR-12`) are configured.
 
 ```bash
 make phpstan
